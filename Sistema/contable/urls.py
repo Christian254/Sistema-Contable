@@ -17,7 +17,7 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^login/$', views.auth_login,name="authentication"),
     url(r'^registrarse/$', views.auth_signup,name="authentication"),
-    url(r'^logout/$',auth_views.logout, {'next_page':'/'}, name='logout'),
+    url(r'^logout/$',auth_views.logout, {'next_page':'/login'}, name='logout'),
     url(r'^$', index),
     url(r'^kardex/', kardex),
     url(r'^OF/', OF, name='OF'),

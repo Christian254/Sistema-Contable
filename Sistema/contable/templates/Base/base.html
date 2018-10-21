@@ -1,73 +1,133 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title>{% block Titulo %}Pagina principal{% endblock Titulo %}</title>
-
-	{% block META %}
-	<link rel="shortcut icon" type="image/x-icon" href="{% static "imagenes/fondoFIA.jpg" %}">
-	<meta charset="utf-8">
-	{% endblock META %}
-
-	{% block EstilosCSS %}
-	<link rel="stylesheet" href="{% static "css/bootstrap.css" %}"/>
-	<link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}"/>
-	{% endblock EstilosCSS %}
-
-	{% block JavaScript %}
-	{% endblock JavaScript %}
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block Titulo %}Pagina principal{% endblock Titulo %}</title>
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
 </head>
-<body>
-	{% block Navegacion %}
-	{% if user.is_authenticated %}
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/">Sistema Contable 1.0</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="/">Home</a></li>
-		        <li> <a href="/sistema-salarial">Salarial</a> </li>
-		        <li><a href="/nuevoPeriodo">Periodo</a></li>
-		        <li><a href="/OF">OF</a></li>
-		        <li><a href="/ingresarCuenta">Catalogo</a></li>
-		        <li><a href="/kardex">costeo por producto</a></li>
-		        <li><a href="/prorrateo">Prorrateo</a></li>
-		        <li style="color:blue;"><a style="color:blue;" href="/logout">Salir</a></li>
-		      </ul>
-		    </div>
-		</div>
-	</nav>
-	<nav>
-		
-	</nav>
-	{% else %}
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/">Sistema Contable 1.0</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="/">Home</a></li>
-		        <li><a href="/login">Iniciar sesion</a></li>
-		      </ul>
-		    </div>
-		</div>
-	</nav>
-	{% endif %}
-	<p></p>
-	<p></p>
-	{% endblock Navegacion %}
 
-	{% block Contenido %}
-		
-	{% endblock Contenido %}
-
-	{% block PiePaginas %}
-	{% endblock PiePaginas %}
-
+<body id="page-top">
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+        <a class="navbar-brand mr-1" href="index.html">Opciones</a>
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar -->
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-fw"></i>
+          </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">                    
+                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav">
+        	<li class="nav-item">
+                <a class="nav-link" href="/nuevoPeriodo">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Periodo Contable</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-md"></i>
+            <span>Puesto</span>
+          </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/puestos"><i class="fas fa-eye"></i> Ver</a>
+                    <a class="dropdown-item" href="/nuevo-puesto"><i class="fas fa-plus"></i> Ingresar</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/sistema-salarial">
+            <i class="fas fa-money-check-alt"></i>
+            <span>Sistema Salarial</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/planilla">
+            <i class="fas fa-book-open"></i>
+            <span>Planilla</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/prorrateo">
+            <i class="fas fa-book"></i>
+            <span>Prorrateo</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/kardex">
+            <i class="fab fa-kickstarter-k"></i>
+            <span>Kardex</span></a>
+            </li>
+        </ul>
+        <div id="content-wrapper">
+            <!-- /.container -->
+            <div class="container">
+                {% block Contenido %}
+                {% endblock Contenido %}
+            </div>
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © Grupo #2.</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cerrar Sesión</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Esta seguro que desea cerrar sesión?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="/logout">Si</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'vendor/select2/dist/js/select2.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin.min.js' %}"></script>
+    {% block JavaScript %}
+    {% endblock JavaScript %}
 </body>
+
 </html>

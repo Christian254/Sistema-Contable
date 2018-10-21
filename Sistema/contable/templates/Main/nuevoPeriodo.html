@@ -8,25 +8,8 @@ Periodo Contable
 
 
 <section class="container" style="width:50%">
-	<h1 class="titulo-03">Periodos Contables</h1>
-	<p class="parrafo" style="    margin-top: 0%;
-    font-family: Verdana;
-    margin-bottom: 5px;
-    padding: 6px 5px;
-    color:white;
-    text-align: center;">aqui puede ver los periodos contables asi como seleccionar</p>
-	<p style="    margin-top: 0%;
-    font-family: Verdana;
-    margin-bottom: 5px;
-    padding: 6px 5px;
-    color:white;
-    text-align: center;">Periodos contables anteriores tambien puede iniciar un nuevo periodo contable </p>
-	<h4 style="    margin-top: 0%;
-    font-family: Verdana;
-    margin-bottom: 5px;
-    padding: 6px 5px;
-    color:white;
-    text-align: center;"> {{mensaje}} </h4>
+	<h1 class="text-center">Periodos Contables</h1>
+    <p class="text-justify">Aquí puede ver todos los periodos contables vigentes</p>	
 
 	{% for p in periodo %}
 		<p style="    margin-top: 0%;
@@ -53,13 +36,13 @@ Periodo Contable
     padding: 6px 5px;
     color:white;
     text-align: center;">nuevo periodo contable</h4></p>
-    <form method="POST" action="">
+    <form method="POST">
     	{% csrf_token %}
-    	<div class="form-group form-inline">
+    	<div class="form-group">
     	<input type="hidden" name="action" id="action" value="nuevo">
     	<label>fecha inicio:</label>
-    	<input type="date" name="fecha_inicio" style="height: 30px;" id="fecha_inicio" required="" class="form-control"><br>
-    	<label>fehca finalizacion:</label>
+    	<input type="date" name="fecha_inicio" id="fecha_inicio" required="" class="form-control"><br>
+    	<label>fecha finalizacion:</label>
     	<input type="date" name="fecha_final" id="fecha_final" style="height: 30px;" required="" class="form-control">
     	<p> <label>Nombre periodo</label> <input type="text" name="usuario" id="usuario" style="height: 30px;" class="form-control"> </p>
     	<p> <input type="submit" name="enviar" value="iniciar periodo" class="btn btn-primary dropdown-toggle"> </p>

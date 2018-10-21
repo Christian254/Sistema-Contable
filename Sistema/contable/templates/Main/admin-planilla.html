@@ -1,55 +1,75 @@
 {% extends "Base/base.html" %}
-
 {% block Titulo %}
 Administracion de Planillas
 {% endblock Titulo %}
-
 {% block Contenido %}
-<section class="container" style="width:30%;">
-
-{% if val == 1 %}
-<h1 class="titulo-03">Informacion laboral</h1>
-<h3 class="titulo-02">{{p.nomEmpleado}}
-<h3>Cargo: {{c.cargo}} <br><br>
-Salario Base: {{c.salNominal}} <br><br>
-Años Laborados: {{p.anios}} <br><br>
-Vacaciones: {{p.vaca}} <br><br>
-Aguinaldo: {{p.aguinaldo}} <br><br></h3>
-<a href="" class="estilo">Vacaciones Canceladas</a><br>
-<a href="{% url 'contable:san_planilla' p.id %}" class="estilo">Sancionar</a><br>
-<a href="{% url 'contable:elm_planilla' p.id %}" class="estilo">Eliminar</a><br>
-{% endif %}
-
-
-{% if val == 2 %}
-<form action="" method="post">
-	{% csrf_token %}
-	<h3>Esta seguro que decea eliminar de la planilla al empleado:</h3> <h3 style="font-weight: bold;">{{p.nomEmpleado}}</h3>
-	<button type="submit" class="btn btn-primary dropdown-toggle">Eliminar</button>
-	<a href="{{request.META.HTTP_REFERER}}">No, Cancelar</a>
-</form>
-{% endif %}
-
-
-{% if val == 3 %}
-<div id="form-detalle">
-	<div class="caja-1">
-	<h1 class="titulo-03">Sanción</h1><br>
-	<form action="" method="post">
-		{% csrf_token %}
-		<label for="">Tiempo: </label>	<br><select name="tiempo" id="tiempo" class="form-control" required="">
-						<option value="horas">Horas</option>
-						<option value="dias">Dias</option>
-					</select><br>
-		<label for="">Unidades: </label> <br><input type="number" name="num" id="num" class="form-control" required=""><br>
-		<label for="">Justificacion: </label> <br><textarea name="descripcion" id="descripcion" cols="30" rows="7" class="form-control" required=""></textarea><br><br>	
-		<button type="submit" class="btn btn-primary dropdown-toggle">Guardar</button>
-		<a href="{{request.META.HTTP_REFERER}}">Cancelar e Ir Atras</a>
-	</form>
-</div></div>
-{% endif %}
-
+<section class="container">
+    {% if val == 1 %}
+    <h2 class="text-center">Informacion laboral</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form>
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" value="{{p.nomEmpleado}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Cargo:</label>
+                        <input type="text" class="form-control" id="cargo" value="{{c.cargo}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="salario">Salario:</label>
+                        <input type="text" class="form-control" id="salario" value="{{c.salNominal}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="anios">Años Laborados:</label>
+                        <input type="text" class="form-control" id="anios" value="{{p.anios}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="vacaciones">Vacaciones:</label>
+                        <input type="text" class="form-control" id="vacaciones" value="{{p.vaca}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="aguinaldo">Aguinaldo:</label>
+                        <input type="text" class="form-control" id="aguinaldo" value="{{p.aguinaldo}} " readonly>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <a href="{% url 'contable:san_planilla' p.id %}" class="btn btn-outline-warning"><i class="fas fa-exclamation-circle"></i> Sancionar </a>
+            <a href="{% url 'contable:elm_planilla' p.id %}" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Eliminar</a>
+        </div>
+    </div>
+    {% endif %}
+    {% if val == 2 %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Esta seguro que desea eliminar de la planilla al empleado:</h3> <h3 style="font-weight: bold;">{{p.nomEmpleado}}</h3>
+        <button type="submit" class="btn btn-primary dropdown-toggle">Eliminar</button>
+        <a href="{{request.META.HTTP_REFERER}}">No, Cancelar</a>
+    </form>
+    {% endif %}
+    {% if val == 3 %}
+    <div id="form-detalle">
+        <div class="caja-1">
+            <h1 class="titulo-03">Sanción</h1><br>
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="">Tiempo: </label> <br><select name="tiempo" id="tiempo" class="form-control" required="">
+                    <option value="horas">Horas</option>
+                    <option value="dias">Dias</option>
+                </select><br>
+                <label for="">Unidades: </label> <br><input type="number" name="num" id="num" class="form-control" required=""><br>
+                <label for="">Justificacion: </label> <br><textarea name="descripcion" id="descripcion" cols="30" rows="7" class="form-control" required=""></textarea><br><br>
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar</button>
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> Cancelar e Ir Atras</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 </section>
 {% endblock Contenido %}
-
-

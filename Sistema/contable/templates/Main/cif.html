@@ -7,17 +7,18 @@ Distribución de Costos Indirectos de Fabricación
 {% block Contenido %}
 
 <section class="container" style="margin-bottom:30px;">
+	<h2 class="text-center">Costos Indirectos de Fabricación</h2>
 <div class="tabla-0">
-	<table class="tabla-1">
+	<table class="table table-hover">
 		<caption class="titulo-0">Distribucion</caption>
-	<tr>
+	<thead class="bg-info">
 		<th style="padding-left:8px; padding-right:8px;">Gastos</th>
 		<th style="padding-left:8px; padding-right:8px;">Almacén de materia prima</th>
 		<th style="padding-left:8px; padding-right:8px;">Corte</th>
 		<th style="padding-left:8px; padding-right:8px;">Ensamblado</th>
 		<th style="padding-left:8px; padding-right:8px;">Acabado y secado</th>
 		<th style="padding-left:8px; padding-right:8px;">Almacén de producto terminado</th>
-	</tr>
+	</thead>
 
 	<tr><td style="padding-left:8px; padding-right:8px;">Energia electrica</td>
 		{% for valor in d1 %}
@@ -29,7 +30,7 @@ Distribución de Costos Indirectos de Fabricación
 		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
 	{% endfor %}</tr>
 	
-	<tr><td style="padding-left:8px; padding-right:8px;">Siministros de fabricacionb</td>{% for valor in d3 %}
+	<tr><td style="padding-left:8px; padding-right:8px;">Suministros de fabricacionb</td>{% for valor in d3 %}
 		
 		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
 	{% endfor %}</tr>
@@ -55,9 +56,9 @@ Distribución de Costos Indirectos de Fabricación
 
 <section class="container" style="margin-top:0;">
 <div class="tabla-0">
-	<table class="tabla-1">
+	<table class="table table-hover">
 		<caption class="titulo-0">Factores (n° de empleados)</caption>
-	<tr>
+	<thead class="bg-info">
 		<th style="padding-left:8px; padding-right:8px;"></th>
 		<th style="padding-left:8px; padding-right:8px;">TOTAL</th>
 		<th style="padding-left:8px; padding-right:8px;">Almacén de materia prima</th>
@@ -65,7 +66,7 @@ Distribución de Costos Indirectos de Fabricación
 		<th style="padding-left:8px; padding-right:8px;">Ensamblado</th>
 		<th style="padding-left:8px; padding-right:8px;">Acabado y secado</th>
 		<th style="padding-left:8px; padding-right:8px;">Almacén de producto terminado</th>
-	</tr>
+	</thead>
 	<tr>
 		<td style="padding-left:8px; padding-right:8px;">N Empleados</td>
 		<td style="padding-left:8px; padding-right:8px;">9</td>

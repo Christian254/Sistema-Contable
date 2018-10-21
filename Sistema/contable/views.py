@@ -11,6 +11,7 @@ from datetime import time, date, timedelta
 from .models import *
 from decimal import *
 from contable.inicializar import *
+from django.contrib import messages
 #metodo para logearse
 def auth_login(request):
 	if request.method == 'POST':
@@ -21,9 +22,8 @@ def auth_login(request):
 			login(request,user)
 			return redirect('/')
 		else :
-			valor = "*Ingrese usuario valido o contrasena correcta"
-			context= { 'valor':valor }
-			return render(request,'Main/login.html',context)
+			messages.error(request, '*Ingrese usuario valido o contrasena correcta')
+			return redirect('/login')
 
 	context= {}
 	return render(request,'Main/login.html',context)
@@ -64,7 +64,11 @@ def index(request):
 	if len(e) == 0:
 		iniz = iniciarPlanilla()
 	iniciarUsuario()
-	return HttpResponse(template.render({} , request))
+	if request.user.is_anonymous():
+		messages.error(request, '*Debe iniciar sesion')	
+		return redirect('/login')
+	else:
+		return HttpResponse(template.render({} , request))	
 
 
 
