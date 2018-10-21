@@ -1,0 +1,73 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block Titulo %}Pagina principal{% endblock Titulo %}</title>
+
+	{% block META %}
+	<link rel="shortcut icon" type="image/x-icon" href="{% static "imagenes/fondoFIA.jpg" %}">
+	<meta charset="utf-8">
+	{% endblock META %}
+
+	{% block EstilosCSS %}
+	<link rel="stylesheet" href="{% static "css/bootstrap.css" %}"/>
+	<link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}"/>
+	{% endblock EstilosCSS %}
+
+	{% block JavaScript %}
+	{% endblock JavaScript %}
+
+</head>
+<body>
+	{% block Navegacion %}
+	{% if user.is_authenticated %}
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="/">Sistema Contable 1.0</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="/">Home</a></li>
+		        <li> <a href="/sistema-salarial">Salarial</a> </li>
+		        <li><a href="/nuevoPeriodo">Periodo</a></li>
+		        <li><a href="/OF">OF</a></li>
+		        <li><a href="/ingresarCuenta">Catalogo</a></li>
+		        <li><a href="/kardex">costeo por producto</a></li>
+		        <li><a href="/prorrateo">Prorrateo</a></li>
+		        <li style="color:blue;"><a style="color:blue;" href="/logout">Salir</a></li>
+		      </ul>
+		    </div>
+		</div>
+	</nav>
+	<nav>
+		
+	</nav>
+	{% else %}
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="/">Sistema Contable 1.0</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="/">Home</a></li>
+		        <li><a href="/login">Iniciar sesion</a></li>
+		      </ul>
+		    </div>
+		</div>
+	</nav>
+	{% endif %}
+	<p></p>
+	<p></p>
+	{% endblock Navegacion %}
+
+	{% block Contenido %}
+		
+	{% endblock Contenido %}
+
+	{% block PiePaginas %}
+	{% endblock PiePaginas %}
+
+</body>
+</html>

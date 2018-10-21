@@ -1,0 +1,96 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Consulta de Puestos
+{% endblock Titulo %}
+
+{% block Contenido %}
+{% if val == 0 %}
+<section class="container" style="width:80%">
+<div class="tabla-0">
+	<table class="tabla-1">
+		<caption class="titulo-0">Puestos de trabajo</caption>
+	<tr>
+		<th >Cargo</th>
+		<th>Area</th>
+		<th>Salario</th>
+		<th>Accion</th>
+	</tr>
+	{% for puesto in puestos %}
+		<tr>
+			<td>{{puesto.cargo}}</td>
+			<td>{{puesto.area}}</td>
+			<td>{{puesto.salNominal}}</td>
+			<td><a href="{% url 'contable:edit_puestos' puesto.id %}" class="btn-a">Editar</a><br></td>
+		</tr>
+	{% endfor %}	
+</table>
+</div>
+<a href="/nuevo-puesto/" id="detalle" name="btn" id="btn" >Ingresar puesto</a>
+<a href="{{request.META.HTTP_REFERER}}">Ir Atras</a>
+<br><br>
+{% endif%}
+
+{% if val == 1 %}
+<br><br>
+<section class="container" style="width:30%">
+
+<div id="form-detalle">
+		<div class="caja-1">
+<h1 class="titulo-03">NUEVO PUESTO</h1><br>
+<form action="" method="post">
+	{% csrf_token %}
+	<label for="">Area:</label> <br>	
+			<select name="area" id="area" class="form-control" required="">
+				<option value="Produccion">Producción</option>
+				<option value="Mercadeo">Mercadeo</option>
+				<option value="Administracion">Administración</option>
+			</select><br>
+	<label for="">Cargo: </label>
+	<input type="text" name="cargo" id="cargo" class="form-control" required=""><br>
+	<label for="">Salario: </label>
+	<input type="number" name="sal" id="sal" class="form-control" required=""><br>
+	<button type="submit" class="btn btn-primary dropdown-toggle">Guardar</button>
+	<a href="{{request.META.HTTP_REFERER}}">Ir Atras</a>
+</form>
+</div>
+</div></section>
+{% endif %}
+
+{% if val == 2 %}
+<br><br>
+<section class="container" style="width:30%">
+
+<div id="form-detalle">
+		<div class="caja-1">
+<h1 class="titulo-03">EDITAR PUESTO</h1><br>
+<form action="" method="post">
+	{% csrf_token %}
+	<label for="">Area:</label> <select name="area" id="area" placeholder"puesto.area" value="{{puesto.area}}" class="form-control" required="">
+				{% if puesto.area == 'Produccion' %}
+					<option value="Produccion" selected>Producción</option>
+					<option value="Mercadeo">Mercadeo</option>
+					<option value="Administracion">Administración</option>
+				{% endif %}
+				{% if puesto.area == 'Mercadeo' %}
+					<option value="Produccion">Producción</option>
+					<option value="Mercadeo" selected>Mercadeo</option>
+					<option value="Administracion">Administración</option>
+				{% endif %}
+				{% if puesto.area == 'Administracion' %}
+					<option value="Produccion">Producción</option>
+					<option value="Mercadeo">Mercadeo</option>
+					<option value="Administracion" selected>Administración</option>
+				{% endif %}
+			</select><br>
+	<label for="">Cargo: </label> <input type="text" name="cargo" id="cargo" value="{{puesto.cargo}}" class="form-control" required=""><br>
+	<label for="">Salario: </label><input type="number" name="sal" id="sal" value="{{puesto.salNominal}}" class="form-control" required=""><br>
+
+	<button type="submit" class="btn btn-primary dropdown-toggle">Guardar</button>
+	<a href="{{request.META.HTTP_REFERER}}">Ir Atras</a>
+</form>
+</div>
+</div>
+{% endif %}
+</section>
+{% endblock %}

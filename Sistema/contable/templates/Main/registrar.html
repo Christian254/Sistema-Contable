@@ -1,0 +1,57 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+ingresar usuario
+{% endblock Titulo %}
+{% block Contenido %}
+{% if user.is_superuser %}
+<h1>es un superusuario</h1>
+    <h1>Registre uno nuevo!!!!</h1>
+        <div>
+            {{valor}}
+            <form method="POST">
+                {% csrf_token %}
+                <p>
+                    <label>carnet: </label>
+                    <input type="text" name="username" id="username" placeholder="carnet" required="">
+                </p>
+                <p>
+                    <label>Password: </label>
+                    <input type="password" name="password" id="password" required="" placeholder="password">
+                </p>
+                <p>
+                    <label>email</label>
+                    <input type="email" name="email" id="email" required="" placeholder="email">
+                </p>
+                <input type="submit" name="button" value="aceptar">
+            </form>
+        </div>
+
+{% endif %}
+    {% if user.is_authenticated %}
+	<h1>Hola: {{user.username}} </h1>    
+    {% else %}
+    	<h1>Registrese!!!!</h1>
+    	<div>
+            {{valor}}
+    		<form method="POST">
+    			{% csrf_token %}
+    			<p>
+    				<label>carnet: </label>
+    				<input type="text" name="username" id="username" placeholder="carnet" required="">
+    			</p>
+    			<p>
+    				<label>Password: </label>
+    				<input type="password" name="password" id="password" required="" placeholder="password">
+    			</p>
+    			<p>
+    				<label>email</label>
+    				<input type="email" name="email" id="email" required="" placeholder="email">
+    			</p>
+    			<input type="submit" name="button" value="aceptar" class="btn btn-primary dropdown-toggle">
+    		</form>
+    	</div>
+    {% endif %}
+{% endblock Contenido %}
+
+

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Inicio sesión - SIBBHE</title>
+	<link rel="stylesheet" href="{% static "css/login.css" %}"/>
+</head>
+<body>
+	<div class="inf"><img class="icon" src="{% static "icon/ico3.png" %}" alt=""></div>
+
+		<div class="der">
+			<div class="formBox">
+				<form action="" method="post" >
+				   	{% csrf_token %}
+				   	<div class="is"><p>Inicio de sesión</p></div><br>
+					<label for="carnet" class="text-uppercase">Usuario:</label><br>
+					<input type="text" name="username" id="username" class="form-control" placeholder="Ingrese acá su usuario"><br><br>
+					<label for="contraseña" class="text-uppercase">Contraseña:</label><br>
+					<input type="password" name="password" id="password" class="form-control" placeholder="Ingese acá su contrasenia">
+					<div class="is2">{{ valor }}</div><br><br><br>
+					<input type="submit" name="ingresar" value="Ingresar">
+				</form>
+			</div>
+		</div>
+</body>
+</html>

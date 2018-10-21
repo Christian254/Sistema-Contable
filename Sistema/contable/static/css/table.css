@@ -1,0 +1,45 @@
+#BC {
+	border: none;
+	border-collapse: collapse;
+	padding: 0px;
+}
+
+table, th, td {
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+td,th {
+	padding: 5px;
+}
+
+table tr:nth-child(even){
+	background-color: #eee;
+}
+
+table tr:nth-child(odd){
+	background-color: #fff;
+} nth-child(n) selector 
+
+table th {
+	color: green;
+	background-color: white;
+}
+
+#kardex_1 {
+	color: blue;
+}
+
+a {
+	padding: 6px;
+	background: #FFA500;
+	color:white;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: verdana;
+	margin:5px 5px;
+	display: inline-block;
+}
+
+.caja-0{
+	margin:20px;
+}

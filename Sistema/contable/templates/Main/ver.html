@@ -1,0 +1,44 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Sistema Contable SIC115
+{% endblock Titulo %}
+
+{% block Contenido %}
+{{ error_message }}
+<section class="container" style="margin-top:10%;margin-left:25%;width:50%;">
+		<div id="form-detalle">
+				<div class="tabla-0">
+					<table class="tabla-1">
+						<caption class="titulo-01">Ordenes de fabricacion</caption>
+		<tr>
+			<th colspan="1">{{orden.cuenta}} </th>
+			<th colspan="1">Valor </th>
+		</tr>
+		<tr>
+			<td>Inventario inicial de producto en proceso:</td>
+			<td> {{detalle.invInici}}</td>
+		</tr>
+		<tr>
+			<td>Materia Prima: </td>
+			<td> {{detalle.materiaPrima}}</td>
+		</tr>
+		<tr>
+			<td>Mano de Obra directa:</td>
+			<td>  {{detalle.manoObra}} </td>
+		</tr>
+		<tr>
+			<td>Costos indirectos de fabricacion: </td>
+			<td>  {{detalle.cif}}</td>
+		</tr>
+		<tr>
+			<td>Saldo: </td>
+			<td>  {{detalle.saldo}} </td>
+		</tr>
+	</table>
+
+</div></div>
+</section>
+
+{% endblock Contenido %}
+

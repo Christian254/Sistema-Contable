@@ -1,0 +1,21 @@
+elsistema puede realizar lo siguiente: 
+->ingresar un nuevo usuario (echo)
+->iniciar sesion (echo)
+->ingresar nuevo cardex (echo)
+->llenar un cardex especifico (echo)
+->ingresar cuenta(echo)
+->ingresar transacciones(echo)
+->generar balance de comprobacion(echo)
+->planilla de salario(echo)
+
+
+
+
+falta: 
+->realizar ajustes()
+->generar estado de resultado()
+->generar estado de capital()
+->generar balance general()
+->prorrateo()
+->costeo de un producto()
+

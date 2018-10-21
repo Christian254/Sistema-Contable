@@ -1,0 +1,46 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container">
+
+{{ error_message }}
+<p> <h1> {{text}} </h1> </p>
+	
+	<h1>Depreciacion</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="ajuste">
+
+
+
+	<form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+		
+		Valor actual del equipo:
+		<input type="number" name="vactual" id="vactual" required="" class="form-control"><br>
+		
+		Valor final del equipo:
+		<input type="number" name="vfinal" id="vfinal" required="" class="form-control"><br>
+		
+		Vida util del equipo (en años):
+		<input type="number" name="vutil" id="vutil" required="" class="form-control"><br>
+		<input type="submit" value="Calcular" class="btn btn-primary dropdown-toggle"><br>
+		Depreciacion mensual: {{depreciacion}}<br>
+
+	</div>
+	</form>
+	    {% for p in periodo %}
+	        <label>Agregar la depreciacion calculada a las respectivas cuentas</label>
+		    <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Agregar</a>
+        {% endfor %}
+		
+
+</section>
+{% endblock Contenido %}

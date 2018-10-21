@@ -1,0 +1,90 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Distribución de Costos Indirectos de Fabricación
+{% endblock Titulo %}
+
+{% block Contenido %}
+
+<section class="container" style="margin-bottom:30px;">
+<div class="tabla-0">
+	<table class="tabla-1">
+		<caption class="titulo-0">Distribucion</caption>
+	<tr>
+		<th style="padding-left:8px; padding-right:8px;">Gastos</th>
+		<th style="padding-left:8px; padding-right:8px;">Almacén de materia prima</th>
+		<th style="padding-left:8px; padding-right:8px;">Corte</th>
+		<th style="padding-left:8px; padding-right:8px;">Ensamblado</th>
+		<th style="padding-left:8px; padding-right:8px;">Acabado y secado</th>
+		<th style="padding-left:8px; padding-right:8px;">Almacén de producto terminado</th>
+	</tr>
+
+	<tr><td style="padding-left:8px; padding-right:8px;">Energia electrica</td>
+		{% for valor in d1 %}
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+	
+	<tr><td style="padding-left:8px; padding-right:8px;">Servicio de agua</td>{% for valor in d2 %}
+		
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+	
+	<tr><td style="padding-left:8px; padding-right:8px;">Siministros de fabricacionb</td>{% for valor in d3 %}
+		
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+	
+	<tr><td style="padding-left:8px; padding-right:8px;">Gasolina</td>{% for valor in d4 %}
+		
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+	
+	<tr><td style="padding-left:8px; padding-right:8px;">Mantenimiento de maquinaria</td>{% for valor in d5 %}
+		
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+	
+	<tr><td style="padding-left:8px; padding-right:8px;">Alquiler</td>{% for valor in d6 %}
+		
+		<td style="padding-left:8px; padding-right:8px;">{{valor}}</td>
+	{% endfor %}</tr>
+</table>
+</div>
+</section>
+
+
+<section class="container" style="margin-top:0;">
+<div class="tabla-0">
+	<table class="tabla-1">
+		<caption class="titulo-0">Factores (n° de empleados)</caption>
+	<tr>
+		<th style="padding-left:8px; padding-right:8px;"></th>
+		<th style="padding-left:8px; padding-right:8px;">TOTAL</th>
+		<th style="padding-left:8px; padding-right:8px;">Almacén de materia prima</th>
+		<th style="padding-left:8px; padding-right:8px;">Corte</th>
+		<th style="padding-left:8px; padding-right:8px;">Ensamblado</th>
+		<th style="padding-left:8px; padding-right:8px;">Acabado y secado</th>
+		<th style="padding-left:8px; padding-right:8px;">Almacén de producto terminado</th>
+	</tr>
+	<tr>
+		<td style="padding-left:8px; padding-right:8px;">N Empleados</td>
+		<td style="padding-left:8px; padding-right:8px;">9</td>
+		<td style="padding-left:8px; padding-right:8px;">1</td>
+		<td style="padding-left:8px; padding-right:8px;">2</td>
+		<td style="padding-left:8px; padding-right:8px;">3</td>
+		<td style="padding-left:8px; padding-right:8px;">2</td>
+		<td style="padding-left:8px; padding-right:8px;">1</td>
+	</tr>
+	<tr>
+		<td style="padding-left:8px; padding-right:8px;">Factores</td>
+		<td style="padding-left:8px; padding-right:8px;">1</td>
+		<td style="padding-left:8px; padding-right:8px;">0.111</td>
+		<td style="padding-left:8px; padding-right:8px;">0.222</td>
+		<td style="padding-left:8px; padding-right:8px;">0.333</td>
+		<td style="padding-left:8px; padding-right:8px;">0.222</td>
+		<td style="padding-left:8px; padding-right:8px;">0.111</td>
+	</tr>
+</table></div>
+</section>
+
+{% endblock Contenido %}

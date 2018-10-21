@@ -1,0 +1,69 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Periodo Contable
+{% endblock Titulo %}
+
+{% block Contenido %}
+
+
+<section class="container" style="width:50%">
+	<h1 class="titulo-03">Periodos Contables</h1>
+	<p class="parrafo" style="    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;">aqui puede ver los periodos contables asi como seleccionar</p>
+	<p style="    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;">Periodos contables anteriores tambien puede iniciar un nuevo periodo contable </p>
+	<h4 style="    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;"> {{mensaje}} </h4>
+
+	{% for p in periodo %}
+		<p style="    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;"> <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Periodo contable {{p.id}} del {{p.fecha_inicio}} al {{p.fecha_final}} </a>
+		{%if p.activo %}
+			periodo activo 
+		{% else %}
+			periodo cerrado
+		{% endif %}
+		</p>
+	{% endfor %}
+	<form method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="cerrar">
+		<input type="submit" name="cerrar" id="cerrar" value="cerrar periodo" class="btn">
+	</form>
+	<p><h4 style="    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;">nuevo periodo contable</h4></p>
+    <form method="POST" action="">
+    	{% csrf_token %}
+    	<div class="form-group form-inline">
+    	<input type="hidden" name="action" id="action" value="nuevo">
+    	<label>fecha inicio:</label>
+    	<input type="date" name="fecha_inicio" style="height: 30px;" id="fecha_inicio" required="" class="form-control"><br>
+    	<label>fehca finalizacion:</label>
+    	<input type="date" name="fecha_final" id="fecha_final" style="height: 30px;" required="" class="form-control">
+    	<p> <label>Nombre periodo</label> <input type="text" name="usuario" id="usuario" style="height: 30px;" class="form-control"> </p>
+    	<p> <input type="submit" name="enviar" value="iniciar periodo" class="btn btn-primary dropdown-toggle"> </p>
+    	</div>
+	</form>
+</section>
+{% endblock Contenido %}

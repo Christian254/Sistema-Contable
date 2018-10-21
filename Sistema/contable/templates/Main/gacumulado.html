@@ -1,0 +1,52 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container">
+
+{{ error_message }}
+<p> <h1> {{text}} </h1> </p>
+	
+	<h1>Gastos acumulados</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="ajuste">
+
+
+
+
+
+    <form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+
+		Prestamo o gasto acumulado:
+		<input type="number" name="prestamo" id="prestamo" required="" class="form-control"><br>
+		
+		Tasa de interes (anual):
+		<input type="number" name="tasainteres" id="tasainteres" required="" class="form-control"><br>
+
+		Tiempo del prestamo (anual):
+		<input type="number" name="tinteres" id="tinteres" required="" class="form-control"><br>
+
+		Tiempo del perido contable (en meses):
+		<input type="number" name="tcontable" id="tcontable" required="" class="form-control"><br>
+		
+		<input type="submit" value="Calcular" class="btn btn-primary dropdown-toggle"><br>
+		Gastos del periodo contable: {{gacumulado}}<br>
+	</div>
+	</form>
+
+	    {% for p in periodo %}
+	        <label>Agregar los gastos calculados a las respectivas cuentas</label>
+		    <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Agregar</a>
+        {% endfor %}
+		
+
+</section>
+{% endblock Contenido %}

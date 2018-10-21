@@ -1,0 +1,55 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Administracion de Planillas
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container" style="width:30%;">
+
+{% if val == 1 %}
+<h1 class="titulo-03">Informacion laboral</h1>
+<h3 class="titulo-02">{{p.nomEmpleado}}
+<h3>Cargo: {{c.cargo}} <br><br>
+Salario Base: {{c.salNominal}} <br><br>
+Años Laborados: {{p.anios}} <br><br>
+Vacaciones: {{p.vaca}} <br><br>
+Aguinaldo: {{p.aguinaldo}} <br><br></h3>
+<a href="" class="estilo">Vacaciones Canceladas</a><br>
+<a href="{% url 'contable:san_planilla' p.id %}" class="estilo">Sancionar</a><br>
+<a href="{% url 'contable:elm_planilla' p.id %}" class="estilo">Eliminar</a><br>
+{% endif %}
+
+
+{% if val == 2 %}
+<form action="" method="post">
+	{% csrf_token %}
+	<h3>Esta seguro que decea eliminar de la planilla al empleado:</h3> <h3 style="font-weight: bold;">{{p.nomEmpleado}}</h3>
+	<button type="submit" class="btn btn-primary dropdown-toggle">Eliminar</button>
+	<a href="{{request.META.HTTP_REFERER}}">No, Cancelar</a>
+</form>
+{% endif %}
+
+
+{% if val == 3 %}
+<div id="form-detalle">
+	<div class="caja-1">
+	<h1 class="titulo-03">Sanción</h1><br>
+	<form action="" method="post">
+		{% csrf_token %}
+		<label for="">Tiempo: </label>	<br><select name="tiempo" id="tiempo" class="form-control" required="">
+						<option value="horas">Horas</option>
+						<option value="dias">Dias</option>
+					</select><br>
+		<label for="">Unidades: </label> <br><input type="number" name="num" id="num" class="form-control" required=""><br>
+		<label for="">Justificacion: </label> <br><textarea name="descripcion" id="descripcion" cols="30" rows="7" class="form-control" required=""></textarea><br><br>	
+		<button type="submit" class="btn btn-primary dropdown-toggle">Guardar</button>
+		<a href="{{request.META.HTTP_REFERER}}">Cancelar e Ir Atras</a>
+	</form>
+</div></div>
+{% endif %}
+
+</section>
+{% endblock Contenido %}
+
+

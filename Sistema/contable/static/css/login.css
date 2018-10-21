@@ -1,0 +1,109 @@
+.is p{
+	color:#262626;
+	font-size:36;
+	font-weight: bold;
+	font-size: 140%;
+}
+
+.contenido{
+	width: 50%;
+	height: 400px;
+	background: #fff;
+	margin-top: 10%;
+	margin-left: 25%;
+	margin-right: 25%;
+	border:2px solid #fff;
+	box-shadow:0 15px 40px rgba(0, 0, 0, .9);
+}
+
+.der{
+	float:right;
+	width: 30%;
+	height: 420px;
+	box-sizing:border-box;
+	background: #fff;
+	margin-top: 10%;
+	margin-left: 35%;
+	margin-right: 35%;
+	border:2px solid #fff;
+	box-shadow:0 15px 40px rgba(0, 0, 0, .9);
+	opacity:0.9;
+}
+
+.formBox{
+	width:100%;
+	padding: 20px 40px;
+	box-sizing:border-box;
+	height: 400px;
+	background: #fff;
+	opacity:none;
+
+}
+
+.formBox label{
+	margin: 0;
+	padding: 0;
+	color:#424508;
+	font-size: 110%;
+}
+
+.formBox input{
+	margin-bottom: 20px;
+	padding: 0;
+	color:#595959;
+	width: 100%;
+	font-size: 110%;
+}
+
+.formBox input[type="text"],
+.formBox input[type="password"]{
+	border:none;
+	border-bottom: 2px solid #a6af13;
+	outline: none;
+	height: 40px;
+}
+
+.formBox input[type="text"]:focus,
+.formBox input[type="password"]:focus{
+	border-bottom: 2px solid #262626;
+}
+
+.formBox input[type="submit"]{
+	border:none;
+	outline:none;
+	height: 40px;
+	color:#fff;
+	background: #262626;
+	position: static;
+}
+
+.formBox input[type="submit"]:hover{
+	border:none;
+	outline:none;
+	height: 40px;
+	color:#fff;
+	background: #a6af13;
+	cursor:pointer;
+}
+
+.is2{
+	font-size: 80%;
+	position:fixed;
+	color:red;
+	font-style: oblique;
+	font-weight: bold;
+}
+
+.inf{
+	float: right;
+	position: fixed;
+	margin-left: 94%;
+}
+.inf .icon{
+	width: 50%;
+	margin: 20px;
+}
+.inf .icon:hover{
+	cursor:help;
+	opacity: 0.8;
+}

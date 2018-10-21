@@ -1,0 +1,45 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+{% block Contenido %}
+<section class="container">
+
+{{ error_message }}
+<p> <h1> {{text}} </h1> </p>
+	
+	<h1>Amortizacion</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="ajuste">
+
+
+
+
+
+    <form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+
+		Valor del activo:
+		<input type="number" name="vactivo1" id="vactivo1" required="" class="form-control"><br>
+
+		Tiempo de duracion (en años):
+		<input type="number" name="tduracion" id="tduracion" required="" class="form-control"><br>
+
+		<input type="submit" value="Calcular" class="btn btn-primary dropdown-toggle"><br>
+		Amortizacion mensual: {{amortizacion}}<br>
+	</div>
+	</form>
+
+	    {% for p in periodo %}
+	        <label>Agregar la amortizacion calculada a las respectivas cuentas</label>
+		    <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Agregar</a>
+        {% endfor %}
+		
+
+</section>
+{% endblock Contenido %}

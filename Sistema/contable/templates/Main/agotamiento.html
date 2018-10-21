@@ -1,0 +1,46 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container">
+
+{{ error_message }}
+<p> <h1> {{text}} </h1> </p>
+	
+	<h1>Agotamiento</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="ajuste">
+
+
+
+
+
+    <form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+
+		Valor del recurso natural:
+		<input type="number" name="vrecurso" id="vrecurso" required="" class="form-control"><br>
+		
+		Cantidad total extraible del recurso:
+		<input type="number" name="ctotal" id="ctotal" required="" class="form-control"><br>
+		
+		<input type="submit" value="Calcular" class="btn btn-primary dropdown-toggle"><br>
+		Cuota por agotamiento: {{agotamiento}}<br>
+	</div>
+	</form>
+
+	    {% for p in periodo %}
+	        <label>Agregar el agotamiento calculado a las respectivas cuentas</label>
+		    <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Agregar</a>
+        {% endfor %}
+		
+
+</section>
+{% endblock Contenido %}

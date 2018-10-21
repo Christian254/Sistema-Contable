@@ -1,0 +1,100 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Catalogo de cuentas
+{% endblock Titulo %}
+
+{% block Contenido %}
+<br><br>
+<input id="detalle" type="submit" value="Administrar cuentas" onclick="CrearCuenta()"/>
+<div style="margin-top:0%" id="a0" onload="Ocultar()">
+	<div id="caja-0" class="caja-0">
+	<div id="form-detalle">
+		<div class="caja-1">
+			<form method="POST" action="">
+			<input type="hidden" name="action" id="action" value="newCuenta">
+			{% csrf_token %}
+			<p class="titulo-02">Tipo de cuenta</p><br>
+	 		<label id="tipo" name="tipo" for="tipo">Tipo cuenta:</label>
+		 	<select id="tipo" name="tipo">
+			     <option value="A">Activo</option>
+			     <option value="P">Pasivo</option>
+			     <option value="C">Capital</option>
+			     <option value="R">Resultado</option>   
+			</select><br>
+		        	
+		    <label>Nombre:</label>
+		    <input type="text" name="nombret" id="nombret"><br>
+		        	
+		    <label> Grupo cuenta: </label>
+		 	<select id="grupo" name="grupo">
+			    <option value="C">Circulante</option>
+			    <option value="F">Fijo</option>
+			    <option value="D">Diferido</option>
+			    <option value="T">Capital o resultado</option>   
+			</select><br>
+		       
+		    <label>Nombre del grupo: </label>
+		    <input type="text" name="nombreg" id="nombreg"><br>
+		    
+		    <label>Descripcion:</label>
+		    <input type="text" name="descripciong" id="descripciong"><br><br><br>
+		    
+			<input class="btn-sb" type="submit" name="btn" id="btn" value="Ingresar tipo de cuenta">
+		</form>
+		</div>
+			
+	</div>
+</div>
+
+	<div id="caja-0" class="caja-0">
+		<div id="form-detalle">
+				<div class="tabla-0">
+					<table class="tabla-1">
+						<caption class="titulo-01">Crear cuenta</caption>
+						<tr>
+							<th>Cuenta</th>
+							<th>Accion</th>
+						</tr>
+					{% for t in tipo %}
+						<tr>
+							<td >{{t.nom_grupo}}</td>
+							<td><a href="{% url 'contable:insertCuenta' t.id %}" class="btn-sb" name="btn" id="btn" >Agregar</a> </td>
+						</tr>
+					{% endfor %}		
+					</table>
+				</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="tabla-0">
+	<table class="tabla-1">
+		<caption class="titulo-0">Catalogo de cuentas </caption>
+		<tr>
+			<th>Codigo cuenta</th>
+			<th>Cuenta</th>
+			<th>Descripcion</th>
+			
+			<th>Cuenta padre</th>
+		</tr>
+	{% for t in tipo %}
+		{% for cuenta in t.cuenta_set.all %}
+		<tr>
+			<td> {{cuenta.codigo_cuenta}} </td>
+			<td> {{cuenta.nom_cuenta}} </td>
+			<td> {{cuenta.descripcion}} </td>
+			
+			<td> {{cuenta.cuenta_padre}} </td>
+		</tr>
+		{% endfor %}
+	{% endfor %}
+	</table><br><br>
+</div>	
+
+	
+
+	
+{% endblock Contenido %}

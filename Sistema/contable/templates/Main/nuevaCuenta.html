@@ -1,0 +1,75 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingresar nueva cuenta
+{% endblock Titulo %}
+
+{% block Contenido %}
+{% if user.is_authenticated %}
+
+<div id="caja-0" class="caja-0" style="margin-left:4%; margin-right:0%;margin-bottom:0%; margin-top:6.5%;height:50%;width:30%; display: inline-block;">
+	<div id="form-detalle">
+		<div class="caja-1">
+			<form method="POST" action="">
+				<input type="hidden" name="action" id="action" value="insert">
+				{% csrf_token %}
+				<h3 class="titulo-03">Nueva cuenta</h3>
+					<p>
+						<label>Nombre cuenta: </label>
+						<input style="height: 30px;" type="`text" name="nombrec" id="nombrec" required="" class="form-control" placeholder="nombre de la cuenta">
+					</p>
+					<p>
+						<label>Descripcion</label>
+						<input style="height:30px;" type="text" name="descripcion" id="descripcion" class="form-control" placeholder="descripcion" required="">
+					</p>
+					<p>
+						<label>Cuenta padre: </label><br>
+						<select id="cuentaP" name="cuentaP">
+							<option value="">None</option>
+							{% for cu  in cuenta %}
+								<option value="{{cu.nom_cuenta}}">{{cu.nom_cuenta}}</option>
+							{% endfor %}   
+				        </select>
+					</p>
+					<p>
+						<label>Codigo (ejemplo: 00X):</label>
+						<input style="height: 30px;" type="text" name="codigo" id="codigo" max="999" maxlength="3" min="000" required="" class="form-control" placeholder="O02">
+					</p><br>
+				<input type="submit" name="btn" id="btn" value="ingresar" class="btn btn-primary dropdown-toggle">
+
+			</form>
+			
+		</div>
+	</div>
+</div>
+
+<div style=" clear: both; margin:0%; padding-top:0%; padding-left:2%; display: inline-block; width:65%; vertical-align: top; height:600px;" class="a0">
+
+<section class="container" style="width:80%; display:inline-block; padding-right:0px; height:490px; margin-top:11%;" >
+	<div class="tabla-0" style="width:90%; height:423px; overflow:auto;">
+
+		<table class="tabla-1" style="width:50%; overflow:auto; height:4px%">
+			<caption class="titulo-0" style="position:relative; background-color:#3d5c5c">Cuentas: {{grupo.nom_grupo}} </caption>
+				<tr>
+					<th style="padding-left: 28px; padding-right: 28px;">nombre cuenta</th>
+					<th style="padding-left: 28px; padding-right: 28px;"> descripcion </th>
+					<th style="padding-left: 20px; padding-right: 20px;"> Codigo </th>
+					<th style="padding-left: 20px; padding-right: 20px;">Cuenta padre</th>
+				</tr>
+				{% for c in cuenta %}
+				<tr>
+					<td style="padding-left: 28px; padding-right: 28px;"> {{c.nom_cuenta}} </td>
+					<td style="padding-left: 28px; padding-right: 28px;"> {{c.descripcion}} </td>
+					<td style="padding-left: 28px; padding-right: 28px;"> {{c.codigo_cuenta}} </td>
+					<td style="padding-left: 28px; padding-right: 28px;">{{c.cuenta_padre}} </td>
+				</tr>
+				{% endfor %}
+		</table>
+
+	</div>
+</section>
+	</div>
+	<a href="{{request.META.HTTP_REFERER}}">No, Cancelar</a>
+{% else %}
+{% endif %}
+{% endblock Contenido %}

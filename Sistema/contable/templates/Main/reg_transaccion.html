@@ -1,0 +1,131 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+
+{% block Contenido %}
+
+<section class="container">
+<p style="font-family: 'Lobster-Regular',cursive;
+    text-align: center;
+    color: #fff;">aqui ingrese las transaciones</p>
+{{ error_message }}
+<p> <h1 font-family: 'Lobster-Regular',cursive;> {{text}} </h1> </p>
+	{% if periodo.activo %}
+	<form action="" method="POST">
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+		Cuenta:<br>
+		<select name="cuenta" id="cuenta" required="" ><br>
+		{% for cuenta in cuentas %}
+			<option value="{{cuenta.id}}">{{cuenta.nom_cuenta}}</option>
+		{% endfor %}
+		</select> <br>
+		<p> <label>descripcion:</label> <input type="text" name="descripcion" class="form-control" id="descripcion" required=""> </p>
+		Concepto:<br>
+		<select name="concepto" id="concepto" required="" >
+			<option value="cargar">Cargar</option>
+			<option value="abonar">Abonar</option>
+		</select>
+		<input type="checkbox" name="check" id="check" value="IVA" class="form-control"><label>IVA</label>
+		<br>
+		Monto:<br>
+		<input type="number" name="monto" id="monto" required="" class="form-control"><br>
+
+		<input type="submit" value="Guardar" class="btn btn-primary dropdown-toggle">
+	</div>
+	</form>
+	{% else %}
+		<p>El periodo esta cerrado, por lo tanto usted puede realizar los respectivos ajustes</p>
+	<h1>Realizar los respectivo ajustes</h1>
+	<label>Realizar los ajustes a las respectivas cuentas</label><br>
+		<a href="/depreciacion" class="estilo">Depreciacion</a>
+		<a href="/amortizacion" class="estilo">Amortizacion</a>
+		<a href="/agotamiento" class="estilo">Agotamiento</a>
+		<a href="/adelantado" class="estilo">Gastos pagados por adelantado</a>
+		<a href="/gacumulado" class="estilo">Gastos acumulados</a>
+    <form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<label>Debe seleccionar las cuentas propias para AJUSTE</label><br>
+		<input type="hidden" name="action" id="action" value="insert">
+		Cuenta:<br>
+		<select name="cuenta" id="cuenta" required=""><br>
+		{% for cuenta in cuentas %}
+			<option value="{{cuenta.id}}">{{cuenta.nom_cuenta}}</option>
+		{% endfor %}
+		</select> <br>
+		<p> <label>descripcion:</label> <input type="text" name="descripcion" class="form-control" id="descripcion" required=""> </p>
+		Concepto:<br>
+		<select name="concepto" id="concepto" required="" >
+			<option value="cargar">Cargar</option>
+			<option value="abonar">Abonar</option>
+		</select>
+		<input type="checkbox" name="check" id="check" value="IVA" class="form-control"><label>IVA</label>
+		<br>
+		Monto:<br>
+		<input type="number" name="monto" id="monto" required="" class="form-control"><br>
+
+		<input type="submit" value="Guardar" class="btn btn-primary dropdown-toggle">
+	</div>
+	</form>
+	{% endif %}
+	<table class="table table-bordered table-hover">
+		<caption>Transacciones: libro mayor (saldos) </caption>
+		<tr>
+			<th>codigo</th>
+			<th>Nombre de las cuentas</th>
+			<th>Debe</th>
+			<th>Haber</th>
+		</tr>
+		{% for libro in periodo.libromayor_set.all %}
+		<tr>
+			<td> {{libro.codCuenta}} </td>
+			<td> {{libro.cuenta}} </td>
+			<td> {{libro.saldoDeudor}} </td>
+			<td> {{libro.saldoAcreedor}} </td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% if periodo.activo %}
+	<table class="table table-bordered table-hover">
+		<caption>Detalles: libro diario </caption>
+		<tr>
+			<th>codigo de cuenta</th>
+			<th>fecha</th>
+			<th>concepto</th>
+			<th>descripcion</th>
+			<th>debe</th>
+			<th>haber</th>
+		</tr>
+		{% for libro in periodo.libromayor_set.all %}
+			{% for diario in libro.diario_set.all %}
+			<tr>
+				<td> {{diario.codCuenta}} </td>
+				<td> {{diario.fecha}} </td>
+				<td> {{diario.concepto}} </td>
+				<td> {{diario.descripcion}} </td>
+				<td> {{diario.debe}} </td>
+				<td> {{diario.haber}} </td>
+			</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
+	{% endif %}
+	<form method="POST" action="">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="comprobar">
+		<input type="submit" name="" value="comprobar" class="btn btn-primary dropdown-toggle">
+	</form>
+	<br>
+		<form method="POST" action="{% url 'contable:estados' periodo.id %}">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="estados">
+		<input type="submit" name="" value="Estados financieros" class="btn btn-primary dropdown-toggle">
+		</form>
+</section>
+{% endblock Contenido %}
+

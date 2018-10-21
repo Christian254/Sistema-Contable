@@ -1,0 +1,35 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Detalle de kardex
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container" style="justify-content:center;width:30%;margin-bottom:2%">
+{% if user.is_authenticated %}
+<h1 class="titulo-03" sty>Kardex</h1>
+	{% for k in kardex %} 
+			<a href="{% url 'contable:CostoPromedio' k.id %}" id="detalle" style="padding: 3%;justify-content:center;display:inline-block;width:95%;text-align:center;"> {{k.nombre}}</a> 
+
+	{% endfor %}
+</section>
+
+<section class="container" style="justify-content:center;width:30%;margin-top:0;">
+	<h1 class="titulo-02" sty>Nuevo kardex</h1>
+	<form action="" method="POST">
+		<input type="hidden" name="action" id="action" value="new">
+		{% csrf_token %}
+		<br>
+		<label>Nombre:</label><br>
+		<input type="text" name="nombre" id="nombre" class="form-control" placeholder="nombre del kardex" required=""><br>
+		<label>Inventario:</label><br>
+		<select name="tipo" id="tipo" required="" class="form-control" >
+			<option value="PP">Producto en proceso</option>
+			<option value="PT">Producto Terminado</option>
+		</select><br>
+		<input type="submit" name="btn" id="btn" class="btn btn-primary dropdown-toggle" value="Guardar">
+	</div>
+</section>
+{% else %}
+{% endif %}
+{% endblock Contenido %}

@@ -1,0 +1,49 @@
+{% extends "Base/base.html" %}
+
+{% block Titulo %}
+Ingreso de transaccion
+{% endblock Titulo %}
+
+{% block Contenido %}
+<section class="container">
+
+{{ error_message }}
+<p> <h1> {{text}} </h1> </p>
+	
+	<h1>Gastos por adelantado</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="ajuste">
+
+
+
+
+
+    <form action="" method="POST">
+
+	<div class="form-group form-inline">
+		{% csrf_token %}
+		<input type="hidden" name="action" id="action" value="insert">
+
+		Gasto pagado por adelantado:
+		<input type="number" name="gadelantado" id="gadelantado" required="" class="form-control"><br>
+		
+		Tiempo que cubren los gastos (en meses):
+		<input type="number" name="tpagado" id="tpagado" required="" class="form-control"><br>
+
+		Tiempo del perido contable (en meses):
+		<input type="number" name="tcontable" id="tcontable" required="" class="form-control"><br>
+		
+		<input type="submit" value="Calcular" class="btn btn-primary dropdown-toggle"><br>
+		Gastos del periodo contable: {{gperiodo}}<br>
+	</div>
+	</form>
+
+	    {% for p in periodo %}
+	        <label>Agregar los gastos calculados a las respectivas cuentas</label>
+		    <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Agregar</a>
+        {% endfor %}
+		
+
+</section>
+{% endblock Contenido %}

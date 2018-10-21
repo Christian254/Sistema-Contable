@@ -1,0 +1,257 @@
+
+/*Mini contenedor*/
+#caja-0{
+	background-color: rgba(222, 215, 215, 0.4);
+	padding:2%;
+	box-shadow:15px 15px 15px 15px rgba(0, 0, 0, .1);
+	display: inline-block;
+	margin-right: 1%;
+	vertical-align: top;
+	height: 410px;
+}
+
+/*Contenedor maximo*/
+#a0{
+	margin-left: 7%;
+	margin-top: 0;
+	margin-right: 4%;
+	padding: 4%;
+	width: 5%;
+	padding-top: 1%;
+	line-height: 20px;
+	display: table-cell;
+}
+
+.a0{
+	margin-left: 7%;
+	margin-top: 0;
+	margin-right: 4%;
+	padding: 4%;
+	width: 5%;
+	padding-top: 1%;
+	line-height: 20px;
+	display: table-cell;
+}
+
+/*Caja con y sin mini tabla*/
+#caja-0 #form-detalle{
+	margin:0%;
+	margin-top: 0%;
+	margin: 4%;
+}
+
+/*Caja sin mini tabla*/
+#caja-0 #form-detalle .caja-1{
+	margin:0%;
+	padding-top: 2.7%
+
+}
+
+/*Boton de despliegue*/
+#detalle{
+	margin-left: 4%;
+	margin-top: 4%;
+	margin-bottom: 1%;
+	padding: 1%;
+	width: 20%;
+	background-color: #3bb300;
+	border:0;
+	color:white;
+	font-size: 110%;
+	text-transform: uppercase;
+	border-radius: 10px;
+	text-decoration: none;
+	text-align: center;
+}
+
+#detalle:hover{
+	-webkit-box-shadow: inset 11px 14px 23px -11px rgba(255,255,255,0.86);
+	-moz-box-shadow: inset 11px 14px 23px -11px rgba(255,255,255,0.86);
+	box-shadow: inset 11px 14px 23px -11px rgba(255,255,255,0.86);
+	border-width: 1px;
+	border-color: 2px solid red;
+}
+
+
+#caja-0 input[type="text"]{
+	border:none;
+	border-bottom: 2px solid #a6af13;
+	outline: none;
+	height: 20px;
+}
+
+#caja-0 input[type="text"]:focus{
+	border-bottom: 2px solid #262626;
+}
+
+.btn-sb{
+	border:none;
+	outline:none;
+	height: 40px;
+	color:#fff;
+	background: #262626;
+}
+
+.btn-a{
+	text-decoration: none;
+
+	border:none;
+	outline:none;
+	height: 40px;
+	color:#fff;
+	padding: 7%;
+	text-align: center;
+	background: #ff9933;
+	border-radius: 5px;
+}
+
+.btn-a:hover{
+	background-color: red;
+	text-decoration: none;
+	color:white;
+}
+
+.btn-a1{
+	background: #262626;
+
+	border:none;
+	outline:none;
+	height: 8px;
+	color:#fff;
+	padding: 1%;
+	text-align: center;
+	border-radius: 5px;
+}
+
+#caja-0 #form-detalle label{
+	font-family: sans-serif;
+	padding-top: 10px;
+}
+
+.btn-sb:hover{
+	border:none;
+	outline:none;
+	height: 40px;
+	color:#fff;
+	background: #262626;
+}
+
+/*Tabla*/
+.titulo-0{
+	font-family: sans-serif;
+	text-transform: uppercase;
+	font-size: 200%;
+	background-color: #1f2e2e;
+	margin-bottom: 5px;
+}
+
+/*MIni tabla*/
+.titulo-01{
+	margin-top: 0%;
+	font-family: Verdana;
+	text-transform: uppercase;
+	font-size: 150%;
+	background-color: #3d5c5c;
+	margin-bottom: 5px;
+	padding: 5px 5px;
+	color:white;
+	text-align: center;
+}
+
+/*Mini formulario*/
+.titulo-02{
+	margin-top: 0%;
+	font-family: Verdana;
+	text-transform: uppercase;
+	font-size: 150%;
+	background-color: #3d5c5c;
+	margin-bottom: 5px;
+	padding: 6px 5px;
+	color:white;
+	text-align: center;
+}
+
+/* Titulo de pagina*/
+.titulo-03{
+	font-family: sans-serif;
+	text-transform: uppercase;
+	font-size: 200%;
+	background-color: #1f2e2e;
+	margin-bottom: 5px;
+	padding: 11px 5px;
+	color:white;
+	text-align: center;
+	margin-top: 0;
+}
+
+
+
+.tabla-0{
+	margin:4%;
+}
+
+.tabla-1 th{
+	border: 1px solid black;
+	padding-left: 60px;
+	padding-right: 60px;
+	background-color: #0a0f0f;
+	border-collapse: collapse;
+	color:white;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.tabla-1 tr{
+	border: 1px;
+	border-color: #b3cccc;
+}
+
+.tabla-1 td{
+	border: 1px solid #b3cccc;
+	padding-left: 60px;
+	padding-right: 60px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 107%;
+	text-align: center;
+}
+
+/*Lo ideal para planilla son 15 px*/
+.tabla-1{
+	background-color: #0a0f0f;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+/**/
+.tabla-1{
+	background-color: #0a0f0f;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+
+.tabla-1 tr:hover td { 
+	background-color: #99ffff; 
+} 
+
+.tabla-1 tr:nth-child(even){
+	background-color: #eee;
+}
+
+.tabla-1 tr:nth-child(odd){
+	background-color: #fff;
+} nth-child(n) selector 
+
+#kardex_1 {
+	color: blue;
+}
+
+.parrafo{
+    margin-top: 0%;
+    font-family: Verdana;
+    margin-bottom: 5px;
+    padding: 6px 5px;
+    color:white;
+    text-align: center;
+}
