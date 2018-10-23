@@ -5,136 +5,186 @@ Costeo metodo costo promedio
 {% block Contenido %}
 {% if user.is_authenticated %}
 <br><br>
+<label for="detalle" class="bg-danger"> REVISAR NO SE PARA QUE SIRVE</label>
 <input id="detalle" type="submit" value="Administrar kardex" onclick="CrearCuenta()" />
 {% if kardex1.tipo == 'PP'%}
-<div style="margin-top:0%;height:200px;" id="a0">
-    <div id="caja-0" class="caja-0" style="height:500px;">
-        <div id="form-detalle">
-            <div class="caja-1">
-                <h1 class="titulo-02" sty>Datos de kardex</h1>
-                <form method="POST" action="">
-                    <input type="hidden" name="action" id="action" value="insert">
-                    {% csrf_token %}
-                    <label>fecha:</label>
-                    <input type="date" name="fechaE" id="fechaE" required="" class="form-control"><br>
-                    <label>Cantidad</label>
-                    <input type="number" name="cantidadE" id="cantidadE" required="" class="form-control"><br>
-                    <label>Precio Unitario:</label>
-                    <input type="number" name="precioE" id="precioE" step="0.01" required="" class="form-control"><br>
-                    <label>Pago en: </label>
-                    <select name="cuenta" id="cuenta" class="form-control">
-                        <option value="AC000">Efectivo </option>
-                        <option value="PC000">Credito</option>
-                        <option value="AC004">saco de inventario</option>
-                    </select><br>
-                    <input type="submit" name="btn" id="btn" value="ingresar" class="btn btn-primary dropdown-toggle">
-                </form>
+<div class="container">
+    <h2 class="text-center">Datos de kardex</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <label>fecha:</label>
+                <input type="date" name="fechaE" id="fechaE" required="" class="form-control">
+            </div>
+            <div class="col">
+                <label>Cantidad</label>
+                <input type="number" name="cantidadE" id="cantidadE" required="" class="form-control">
             </div>
         </div>
-    </div>
-    <div id="caja-0" class="caja-0" style="height:440px;">
-        <div id="form-detalle">
-            <div class="caja-1">
-                <h1 class="titulo-02" sty>ENVIAR ORDEN DE FABRICACION</h1>
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" id="action" value="delete">
-                    <label>fecha:</label>
-                    <input type="date" name="fechaS" id="fechaS" required="" class="form-control"><br>
-                    <label>Cantidad</label>
-                    <input type="number" name="cantidadS" id="cantidadS" required="" class="form-control"><br>
-                    <label>Enviar a orden de fabricacion NO terminada aun: </label>
-                    <select name="PP" id="PP" class="form-control">
-                        {% for p in prodPP %}
-                        <option value="{{p.codCuenta}}">{{p.cuenta}} </option>
-                        {% endfor %}
-                    </select><br>
-                    <input type="submit" name="btn" id="btn" value="Sacar" class="btn btn-primary dropdown-toggle">
-                </form>
+        <div class="row">
+            <div class="col">
+                <label>Precio Unitario:</label>
+                <input type="number" name="precioE" id="precioE" step="0.01" required="" class="form-control">
+            </div>
+            <div class="col">
+                <label>Pago en: </label>
+                <select name="cuenta" id="cuenta" class="form-control">
+                    <option value="AC000">Efectivo </option>
+                    <option value="PC000">Credito</option>
+                    <option value="AC004">saco de inventario</option>
+                </select>
             </div>
         </div>
-    </div>
-    <div id="caja-0" class="caja-0" style="height:440px;width:30%">
-        <div id="form-detalle">
-            <div id="form-detalle">
-                <div class="caja-1">
-                    <h1 class="titulo-02">Costo</h1>
-                    <form method="POST" action="">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" id="action" value="calcular"><br>
-                        <input type="submit" name="btn" id="btn" value="calcular" class="btn btn-primary dropdown-toggle">
-                    </form>
-                    <br>
-                    <p><label>Costo de lo vendido y mercaderia disponible</label> </p>
-                    <p> <label>Inventario final: {{final.montoExistencia}} </label></p>
-                    <p>Cantidad en existencia: {{final.cantExistencia}} </p>
-                    <p>Costo de lo vendido: {{CV}} </p>
-                    <p>Mercaderia disponible: {{MD}}</p>
-                    <p> <a href="/kardex" class="estilo"> Regresar</a> </p>
-                </div>
+        <br>
+        <div class="row justify-content-center">
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fas fa-cart-plus"></i> Ingresar
+            </button>
+            <input type="hidden" name="action" id="action" value="insert">
+        </div>
+    </form>
+</div>
+<br>
+<div class="container">
+    <h2 class="text-center">Enviar orden de fabricación</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 col-lg-4">
+                <label>fecha:</label>
+                <input type="date" name="fechaS" id="fechaS" required="" class="form-control">
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <label>Cantidad</label>
+                <input type="number" name="cantidadS" id="cantidadS" required="" class="form-control">
+            </div>
+            <div class="col-md-12 col-lg-5">
+                <label>Enviar a orden de fabricacion NO terminada aun: </label>
+                <select name="PP" id="PP" class="form-control">
+                    {% for p in prodPP %}
+                    <option value="{{p.codCuenta}}">{{p.cuenta}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-    </div>
+        <br>
+        <div class="row justify-content-center">
+            <input type="hidden" name="action" id="action" value="delete">
+            <button type="submit" name="btn" id="btn" class="btn btn-outline-danger"><i class="fas fa-minus-circle"></i> Sacar</button>
+        </div>
+    </form>
+</div>
+<br>
+<div id="container">
+    <h2 class="text-center">Costo</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <input type="hidden" name="action" id="action" value="calcular"><br>
+            <button type="submit" name="btn" id="btn" class="btn btn-outline-info"><i class="fas fa-calculator"></i> Calcular</button>
+        </div>
+    </form>
+    <h5 class="text-center">Costo de lo vendido y mercaderia disponible</h5>
+    <form>
+        <div class="form-group">
+            <label>Inventario final:</label>
+            <input type="text" class="form-control" value="{{final.montoExistencia}}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Cantidad en existencia:</label>
+            <input type="text" class="form-control" value="{{final.cantExistencia}}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Costo de lo vendido:</label>
+            <input type="text" class="form-control" value="{{CV}}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Mercaderia disponible:</label>
+            <input type="text" class="form-control" value="{{MD}}" readonly>
+        </div>
+    </form>
+    <a href="/kardex" class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i> Regresar</a>
 </div>
 {% else %}
-<div style="margin-top:0%;height:200px;" id="a0">
-    <div id="caja-0" class="caja-0" style="height:475px;">
-        <div id="form-detalle">
-            <div class="caja-1">
-                <h1 class="titulo-02" sty>Ingresar</h1>
-                <form method="POST" action="">
-                    <input type="hidden" name="action" id="action" value="ordenfab">
-                    {% csrf_token %}
-                    <label>fecha:</label>
-                    <input type="date" name="fechaO" id="fechaO" required="" class="form-control"><br>
-                    <label>Q de productos de la OF</label><br>
-                    <label>Cantidad</label>
-                    <input type="number" name="cantidadO" id="cantidadO" required="" class="form-control"><br>
-                    <label>viene de: </label>
-                    <select name="PT" id="PT" required="" class="form-control">
-                        {% for p in prodPT %}
-                        {% if p.saldo > 0 %}
-                        <option value="{{p.codCuenta}}">{{p.cuenta}} a un costo total: $ {{p.saldo}} </option>
-                        {% endif %}
-                        {% endfor %}
-                    </select> <br>
-                    <input type="submit" name="btn" id="btn" value="ingresar" class="btn btn-primary dropdown-toggle">
-                </form>
+<div class="container">
+    <h2 class="text-center" sty>Ingresar</h2>
+    <form method="POST" action="">
+        <input type="hidden" name="action" id="action" value="ordenfab">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-3">
+                <label>fecha:</label>
+                <input type="date" name="fechaO" id="fechaO" required="" class="form-control">
+            </div>
+            <div class="col-6">
+                <label>Q de productos de la OF</label>
+                <label>Cantidad</label>
+                <input type="number" name="cantidadO" id="cantidadO" required="" class="form-control"><br>
+            </div>
+            <div class="col-3">
+                <label>viene de: </label>
+                <select name="PT" id="PT" required="" class="form-control">
+                    {% for p in prodPT %}
+                    {% if p.saldo > 0 %}
+                    <option value="{{p.codCuenta}}">{{p.cuenta}} a un costo total: $ {{p.saldo}} </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
             </div>
         </div>
-    </div>
-    <div id="caja-0" class="caja-0" style="height:475px;">
-        <div id="form-detalle">
-            <div class="caja-1">
-                <h1 class="titulo-02" sty>Vender</h1>
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" id="action" value="vender">
-                    <label>Fecha:</label><br>
-                    <input type="date" name="fechaV" id="fechaV" required=""><br><br>
-                    <label>Cantidad</label><br>
-                    <input type="number" name="cantidadV" id="cantidadV" required=""><br><br>
-                    <label>Margen de ganacia entre 0 y 100</label><br>
-                    <input type="number" name="ganancia" id="ganancia" required="" max="100" min="0"><label>%</label><br><br>
-                    <label>Vender A: </label><br>
-                    <select name="PT" id="PT">
-                        <option value="AC000">Efectivo</option>
-                        <option value="AC001">Cuentas por cobrar</option>
-                        <option value="AF000">Documentos por cobrar</option>
-                    </select><br><br>
-                    <input type="submit" name="btn" id="btn" value="vender" class="btn btn-primary dropdown-toggle">
-                </form>
+        <div class="row justify-content-center">
+            <button type="submit" name="btn" id="btn" class="btn btn-outline-success">
+                <i class="fas fa-cart-plus"></i> Ingresar
+            </button>
+        </div>
+    </form>
+</div>
+<br>
+<div class="container">
+    <h2 class="text-center" sty>Vender</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <input type="hidden" name="action" id="action" value="vender">
+                <label>Fecha:</label><br>
+                <input class="form-control" type="date" name="fechaV" id="fechaV" required="">
+            </div>
+            <div class="col">
+                <label>Cantidad</label><br>
+                <input class="form-control" type="number" name="cantidadV" id="cantidadV" required="">
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col">
+                <label>Margen de ganacia entre 0 y 100%</label><br>
+                <input class="form-control" type="number" name="ganancia" id="ganancia" required="" max="100" min="0">
+            </div>
+            <div class="col">
+                <label>Vender A: </label><br>
+                <select name="PT" id="PT" class="form-control">
+                    <option value="AC000">Efectivo</option>
+                    <option value="AC001">Cuentas por cobrar</option>
+                    <option value="AF000">Documentos por cobrar</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <button type="submit" name="btn" id="btn"  class="btn btn-outline-primary">
+                <i class="fas fa-clipboard-check"></i> Vender
+            </button>
+        </div>
+    </form>
 </div>
 {% endif %}
 <section class="container" style="margin-top:2%;height:auto;">
     <div id="form-detalle">
         <div class="tabla-0">
-            <table class="tabla-1">
+            <table class="table table-hover">
                 <caption class="titulo-0">Kardex: metodo costo promedio {{i}}</caption>
-                <tr>
+                <thead class="bg-info">
                     <th style="background-color: #3d5c5c;" colspan="3">Entrada</th>
                     <th style="background-color: #3d5c5c;" colspan="3">Salida</th>
                     <th style="background-color: #3d5c5c;" colspan="3">Existencia </th>
@@ -149,7 +199,7 @@ Costeo metodo costo promedio
                     <th style="padding-left: 20px; padding-right: 20px;">cantidad</th>
                     <th style="padding-left: 20px; padding-right: 20px;">Prec. Unitario</th>
                     <th style="padding-left: 20px; padding-right: 20px;">Monto</th>
-                </tr>
+                </thead>
                 {% for existencia in kardex.all %}
                 <tr>
                     <td style="padding-left: 20px; padding-right: 20px;"> {{existencia.fecha}} </td>
