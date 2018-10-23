@@ -1,74 +1,69 @@
 {% extends "Base/base.html" %}
-
 {% block Titulo %}
 Ordenes de fabricacion
 {% endblock Titulo %}
-
 {% block Contenido %}
 {% if user.is_authenticated %}
-<br><br>
-
-<input id="detalle" type="submit" value="Editar orden" onclick="CrearCuenta()"/>
-<div id="a0">
-	<div id="caja-0" class="caja-0" style="height: 360px;">
-		<div id="form-detalle">
-			<div class="caja-1">
-				<h1 class="titulo-02">Editar orden</h1>
-	<form method="POST" action="">
-	{% csrf_token %}
-		<input type="hidden" name="action" id="action" value="editar">
-		<label for="">OF:</label><br>
-		<select id="opcion" name="opcion">
-			{% for c in orden %}
-			<option value="{{c.codCuenta}}">
-				{{c.cuenta}}
-			</option>
-			{% endfor %}
-		</select>
-		<br>
-		<label>MOD:</label>
-		<input type="number" name="MOD" id="MOD"  class="form-control" step="0.01">
-		<label>CIF (%):</label>
-		<input type="number" name="CIF" id="CIF"  class="form-control" step="0.01"><br>
-		<input type="submit" name="btn" id="btn" class="btn btn-primary dropdown-toggle" value="Guardar">
-	</form>
-</div></div></div></div>
-
-
-
+<p class="bg-danger">REVISAR NO SE QUE HACE y da error de JQUERY :'v no he borrado ningún js</p>
+<input id="detalle" type="submit" value="Editar orden" onclick="CrearCuenta()" />
+<div class="container">
+    <h2 class="text-center">Editar orden</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name="action" id="action" value="editar">
+        <div class="row">
+            <div class="col-4">
+                <label for="opcion">OF:</label><br>
+                <select class="form-control" id="opcion" name="opcion">
+                    {% for c in orden %}
+                    <option value="{{c.codCuenta}}">
+                        {{c.cuenta}}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4">
+                <label>MOD:</label>
+                <input type="number" name="MOD" id="MOD" class="form-control" step="0.01">
+            </div>
+            <div class="col-4">
+                <label>CIF (%):</label>
+                <input type="number" name="CIF" id="CIF" class="form-control" step="0.01">
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <button type="submit" name="btn" id="btn" class="btn btn-outline-primary">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </form>
+</div>
 <section class="container" style="margin-top:1%">
-		<div id="form-detalle">
-				<div class="tabla-0">
-					<table class="tabla-1">
-						<caption class="titulo-01">Ordenes de fabricacion</caption>
-		<tr>
-			<th colspan="4"> ORDENES </th>
-		</tr>
-		<tr>
-			<th>codigo cuenta</th>
-			<th> nombre cuenta </th>
-			<th> saldo cuenta</th>
-			<th> Terminar orden </th>
-		</tr>
-		{% for c in orden %}
-		<tr>
-			<td> {{c.codCuenta}} </td>
-			<td> {{c.cuenta}} </td>
-			<td> {{c.saldo}} </td>
-			{% if c.estado %}
-			<td><a href="{% url 'contable:terminar' c.id %}" class="estilo">Terminar</a> / <a href="{% url 'contable:ver' c.id %}" class="estilo">ver</a> </td>
-			{% else %}
-			<td>Terminada</td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-	</table>
-</div></div></section>
-
-
-
+    <table class="table table-hover">
+        <caption class="titulo-01">Ordenes de fabricacion</caption>
+        <thead class="text-center">
+            <th colspan="4"> ORDENES </th>
+        </thead>
+        <thead class="bg-info">
+            <th>codigo cuenta</th>
+            <th> nombre cuenta </th>
+            <th> saldo cuenta</th>
+            <th> Terminar orden </th>
+        </thead>
+        {% for c in orden %}
+        <tr>
+            <td> {{c.codCuenta}} </td>
+            <td> {{c.cuenta}} </td>
+            <td> {{c.saldo}} </td>
+            {% if c.estado %}
+            <td><a href="{% url 'contable:terminar' c.id %}" class="btn-sm btn-outline-danger"><i class="fas fa-times-circle"></i>Terminar</a> / <a href="{% url 'contable:ver' c.id %}" class="btn-sm btn-outline-info"><i class="far fa-eye"></i> ver</a> </td>
+            {% else %}
+            <td>Terminada</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</section>
 {% else %}
-
 {% endif %}
-
 {% endblock Contenido %}

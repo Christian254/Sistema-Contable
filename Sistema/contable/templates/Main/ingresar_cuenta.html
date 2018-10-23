@@ -1,100 +1,92 @@
 {% extends "Base/base.html" %}
-
 {% block Titulo %}
 Catalogo de cuentas
 {% endblock Titulo %}
-
 {% block Contenido %}
-<br><br>
-<input id="detalle" type="submit" value="Administrar cuentas" onclick="CrearCuenta()"/>
-<div style="margin-top:0%" id="a0" onload="Ocultar()">
-	<div id="caja-0" class="caja-0">
-	<div id="form-detalle">
-		<div class="caja-1">
-			<form method="POST" action="">
-			<input type="hidden" name="action" id="action" value="newCuenta">
-			{% csrf_token %}
-			<p class="titulo-02">Tipo de cuenta</p><br>
-	 		<label id="tipo" name="tipo" for="tipo">Tipo cuenta:</label>
-		 	<select id="tipo" name="tipo">
-			     <option value="A">Activo</option>
-			     <option value="P">Pasivo</option>
-			     <option value="C">Capital</option>
-			     <option value="R">Resultado</option>   
-			</select><br>
-		        	
-		    <label>Nombre:</label>
-		    <input type="text" name="nombret" id="nombret"><br>
-		        	
-		    <label> Grupo cuenta: </label>
-		 	<select id="grupo" name="grupo">
-			    <option value="C">Circulante</option>
-			    <option value="F">Fijo</option>
-			    <option value="D">Diferido</option>
-			    <option value="T">Capital o resultado</option>   
-			</select><br>
-		       
-		    <label>Nombre del grupo: </label>
-		    <input type="text" name="nombreg" id="nombreg"><br>
-		    
-		    <label>Descripcion:</label>
-		    <input type="text" name="descripciong" id="descripciong"><br><br><br>
-		    
-			<input class="btn-sb" type="submit" name="btn" id="btn" value="Ingresar tipo de cuenta">
-		</form>
-		</div>
-			
-	</div>
+<label for="detalle" class="bg-danger"> REVISAR NO SE PARA QUE SIRVE</label>
+<input id="detalle" type="submit" value="Administrar cuentas" onclick="CrearCuenta()" />
+<div class="container" onload="Ocultar()">
+    <div class="container">
+        <h3 class="text-center mt-3 mb-3">Tipo de cuenta</h3>
+        <form method="POST" action="">
+            <input type="hidden" name="action" id="action" value="newCuenta">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-4">
+                    <label id="tipo" name="tipo" for="tipo">Tipo cuenta:</label>
+                    <select class="form-control" id="tipo" name="tipo">
+                        <option value="A">Activo</option>
+                        <option value="P">Pasivo</option>
+                        <option value="C">Capital</option>
+                        <option value="R">Resultado</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <label>Nombre:</label>
+                    <input class="form-control" type="text" name="nombret" id="nombret"><br>
+                </div>
+                <div class="col-4">
+                    <label> Grupo cuenta: </label>
+                    <select class="form-control" id="grupo" name="grupo">
+                        <option value="C">Circulante</option>
+                        <option value="F">Fijo</option>
+                        <option value="D">Diferido</option>
+                        <option value="T">Capital o resultado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label>Nombre del grupo: </label>
+                    <input class="form-control" type="text" name="nombreg" id="nombreg"><br>
+                </div>
+                <div class="col-6">
+                    <label>Descripcion:</label>
+                    <input class="form-control" type="text" name="descripciong" id="descripciong">
+                </div>
+            </div>
+            <div class="row justify-content-center">
+            	<button class="btn btn-outline-primary mb-4" type="submit" name="btn" id="btn">
+            		<i class="fas fa-plus-square"></i> Ingresar tipo de cuenta
+            	</button>
+            </div>            
+        </form>
+    </div>
+    <div class="container">
+        <table class="table table-hover">
+            <caption class="titulo-01">Crear cuenta</caption>
+            <thead class="bg-info">
+                <th>Cuenta</th>
+                <th>Accion</th>
+            </thead>
+            {% for t in tipo %}
+            <tr>
+                <td>{{t.nom_grupo}}</td>
+                <td><a href="{% url 'contable:insertCuenta' t.id %}" class="btn-sm btn-outline-success" name="btn" id="btn" ><i class="fas fa-plus-square"></i> Agregar</a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
-
-	<div id="caja-0" class="caja-0">
-		<div id="form-detalle">
-				<div class="tabla-0">
-					<table class="tabla-1">
-						<caption class="titulo-01">Crear cuenta</caption>
-						<tr>
-							<th>Cuenta</th>
-							<th>Accion</th>
-						</tr>
-					{% for t in tipo %}
-						<tr>
-							<td >{{t.nom_grupo}}</td>
-							<td><a href="{% url 'contable:insertCuenta' t.id %}" class="btn-sb" name="btn" id="btn" >Agregar</a> </td>
-						</tr>
-					{% endfor %}		
-					</table>
-				</div>
-		</div>
-	</div>
+<div class="container">
+    <table class="table table-hover">
+        <caption class="titulo-0">Catalogo de cuentas </caption>
+        <thead class="bg-info">
+            <th>Codigo cuenta</th>
+            <th>Cuenta</th>
+            <th>Descripcion</th>
+            <th>Cuenta padre</th>
+        </thead>
+        {% for t in tipo %}
+        {% for cuenta in t.cuenta_set.all %}
+        <tr>
+            <td> {{cuenta.codigo_cuenta}} </td>
+            <td> {{cuenta.nom_cuenta}} </td>
+            <td> {{cuenta.descripcion}} </td>
+            <td> {{cuenta.cuenta_padre}} </td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </table><br><br>
 </div>
-
-
-
-<div class="tabla-0">
-	<table class="tabla-1">
-		<caption class="titulo-0">Catalogo de cuentas </caption>
-		<tr>
-			<th>Codigo cuenta</th>
-			<th>Cuenta</th>
-			<th>Descripcion</th>
-			
-			<th>Cuenta padre</th>
-		</tr>
-	{% for t in tipo %}
-		{% for cuenta in t.cuenta_set.all %}
-		<tr>
-			<td> {{cuenta.codigo_cuenta}} </td>
-			<td> {{cuenta.nom_cuenta}} </td>
-			<td> {{cuenta.descripcion}} </td>
-			
-			<td> {{cuenta.cuenta_padre}} </td>
-		</tr>
-		{% endfor %}
-	{% endfor %}
-	</table><br><br>
-</div>	
-
-	
-
-	
 {% endblock Contenido %}
