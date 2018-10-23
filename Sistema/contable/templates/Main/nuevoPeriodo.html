@@ -7,46 +7,60 @@ Periodo Contable
 {% block Contenido %}
 
 
-<section class="container" style="width:50%">
+<section class="container" style="width:70%">
 	<h1 class="text-center">Periodos Contables</h1>
-    <p class="text-justify">Aquí puede ver todos los periodos contables vigentes</p>	
+    <p class="text-center">Aquí puede ver todos los periodos contables vigentes</p>	
 
 	{% for p in periodo %}
-		<p style="    margin-top: 0%;
-    font-family: Verdana;
-    margin-bottom: 5px;
-    padding: 6px 5px;
-    color:white;
-    text-align: center;"> <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Periodo contable {{p.id}} del {{p.fecha_inicio}} al {{p.fecha_final}} </a>
-		{%if p.activo %}
-			periodo activo 
-		{% else %}
-			periodo cerrado
-		{% endif %}
-		</p>
+        <div class="row">
+            <div class="col-sm-7">
+                <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Periodo contable {{p.id}} del {{p.fecha_inicio}} al {{p.fecha_final}} </a>
+            </div>
+            <div class="col-sm-3">
+                {%if p.activo %}
+                    <div class="alert-success">periodo activo</div> 
+                {% else %}
+                    <div class="alert-danger">periodo cerrado</div>
+                {% endif %}
+            </div>
+        </div>
 	{% endfor %}
 	<form method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="action" id="action" value="cerrar">
-		<input type="submit" name="cerrar" id="cerrar" value="cerrar periodo" class="btn">
+		<p><input type="submit" name="cerrar" id="cerrar" value="cerrar periodo" class="btn btn-danger"></p>
 	</form>
-	<p><h4 style="    margin-top: 0%;
-    font-family: Verdana;
-    margin-bottom: 5px;
-    padding: 6px 5px;
-    color:white;
-    text-align: center;">nuevo periodo contable</h4></p>
-    <form method="POST">
-    	{% csrf_token %}
-    	<div class="form-group">
-    	<input type="hidden" name="action" id="action" value="nuevo">
-    	<label>fecha inicio:</label>
-    	<input type="date" name="fecha_inicio" id="fecha_inicio" required="" class="form-control"><br>
-    	<label>fecha finalizacion:</label>
-    	<input type="date" name="fecha_final" id="fecha_final" style="height: 30px;" required="" class="form-control">
-    	<p> <label>Nombre periodo</label> <input type="text" name="usuario" id="usuario" style="height: 30px;" class="form-control"> </p>
-    	<p> <input type="submit" name="enviar" value="iniciar periodo" class="btn btn-primary dropdown-toggle"> </p>
-    	</div>
-	</form>
+    <p><a href="" class="btn btn-primary" data-toggle="modal" data-target="#modalNewPeriodo">iniciar nuevo periodo</a></p>
+
+    <div class="modal fade" id="modalNewPeriodo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">nuevo periodo contable</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                        <input type="hidden" name="action" id="action" value="nuevo">
+                        <label>fecha inicio:</label>
+                        <input type="date" name="fecha_inicio" id="fecha_inicio" required="" class="form-control"><br>
+                        <label>fecha finalizacion:</label>
+                        <input type="date" name="fecha_final" id="fecha_final" style="height: 30px;" required="" class="form-control">
+                        <p> <label>Nombre periodo</label> <input type="text" name="usuario" id="usuario" style="height: 30px;" class="form-control"> </p>
+                        <p> <input type="submit" name="enviar" value="iniciar periodo" class="btn btn-primary dropdown-toggle"> </p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock Contenido %}

@@ -388,8 +388,7 @@ def CP(request, kardex_id):
 
 def nuevoPeriodo(request):
 	template=loader.get_template('Main/nuevoPeriodo.html')
-	periodo = PeriodoContable.objects.all()
-			
+	periodo = PeriodoContable.objects.all().order_by('-activo')
 	mensaje=''
 	if request.method=='POST':
 		action = request.POST.get('action',None)
