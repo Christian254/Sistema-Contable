@@ -5,31 +5,57 @@ Detalle de kardex
 {% endblock Titulo %}
 
 {% block Contenido %}
-<section class="container" style="justify-content:center;width:30%;margin-bottom:2%">
+
 {% if user.is_authenticated %}
-<h1 class="titulo-03" sty>Kardex</h1>
-	{% for k in kardex %} 
-			<a href="{% url 'contable:CostoPromedio' k.id %}" id="detalle" style="padding: 3%;justify-content:center;display:inline-block;width:95%;text-align:center;"> {{k.nombre}}</a> 
-
-	{% endfor %}
-</section>
-
-<section class="container" style="justify-content:center;width:30%;margin-top:0;">
-	<h1 class="titulo-02" sty>Nuevo kardex</h1>
-	<form action="" method="POST">
-		<input type="hidden" name="action" id="action" value="new">
-		{% csrf_token %}
-		<br>
-		<label>Nombre:</label><br>
-		<input type="text" name="nombre" id="nombre" class="form-control" placeholder="nombre del kardex" required=""><br>
-		<label>Inventario:</label><br>
-		<select name="tipo" id="tipo" required="" class="form-control" >
-			<option value="PP">Producto en proceso</option>
-			<option value="PT">Producto Terminado</option>
-		</select><br>
-		<input type="submit" name="btn" id="btn" class="btn btn-primary dropdown-toggle" value="Guardar">
+	<div class="row">
+		<div class="col-sm-12">
+			<h1 class="text-center">Kardex</h1>
+			<p>
+				<div class="col-sm-12">
+					<a href="" class="btn btn-primary" data-toggle="modal" data-target="#newKardex"><i class="fas fa-plus"></i>Nuevo kardex</a>
+				</div>
+			</p>
+		    <div class="modal fade" id="newKardex" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		        <div class="modal-dialog" role="document">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h5 class="modal-title" id="exampleModalLabel">Nuevo kardex</h5>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                        <span aria-hidden="true">&times;</span>
+		                    </button>
+		                </div>
+		                <div class="modal-body">
+		                	<form action="" method="POST">
+								<input type="hidden" name="action" id="action" value="new">
+								{% csrf_token %}
+								<br>
+								<label>Nombre:</label><br>
+								<input type="text" name="nombre" id="nombre" class="form-control" placeholder="nombre del kardex" required=""><br>
+								<label>Inventario:</label><br>
+								<select name="tipo" id="tipo" required="" class="form-control" >
+									<option value="PP">Producto en proceso</option>
+									<option value="PT">Producto Terminado</option>
+								</select><br>
+								<input type="submit" name="btn" id="btn" class="btn btn-primary dropdown-toggle" value="Guardar">
+							</form>
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button"
+		                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="form-group">
+		    {% for k in kardex %} 
+		    	<div class="col-sm-24 form-inline">
+					<p><h4 class="col-sm-18">{{k.nombre}}</h4> 
+					<h4><a class="col-sm-6" href="{% url 'contable:CostoPromedio' k.id %}">ver kardex</a></h4></p>
+	    		</div>
+			{% endfor %}
+			</div>
+		</div>
 	</div>
-</section>
 {% else %}
 {% endif %}
 {% endblock Contenido %}

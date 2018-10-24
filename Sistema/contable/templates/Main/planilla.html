@@ -2,8 +2,31 @@
 {% block Titulo %}
 Planilla de Salarios
 {% endblock Titulo %}
+
+{% block JavaScript %}
+    <script type="text/javascript">
+        var bg = document.getElementById('AM');
+        bg.style.display='none';
+        var bg = document.getElementById('AA');
+        bg.style.display='none';
+        function ocultar() {
+            var bg = document.getElementById('AM');
+            bg.style.display='none';
+            var er = document.getElementById('AA');
+            er.style.display='none';
+            var er = document.getElementById('AP');
+            er.style.display='none';
+        }
+        function mostrar(id) {
+            ocultar();
+            var ec = document.getElementById(id);
+            ec.style.display='block';
+        }
+    </script>
+{% endblock JavaScript %}
+
+
 {% block Contenido %}
-<br><br><br>
 {% if val == 0 %}
 <section class="container" style="width:50%">
     <h1 class="titulo-03">SISTEMA DE SALARIOS</h1>
@@ -14,34 +37,55 @@ Planilla de Salarios
 </section>
 {% endif %}
 {% if val == 1%}
-<input id="detalle" type="submit" value="Ingresar en planilla" style="margin-left:4%; margin-top:3%;" onclick="CrearCuenta()" />
-<div style="margin-top:0%" id="a0">
-    <div id="caja-0" class="caja-0" style="height: 440px;">
-        <div id="form-detalle">
-            <div class="caja-1">
-                <h2 class="text-center">Ingreso en planilla</h3>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <label for="">Area:</label><br>
-                    <select style="height: 30px;" name="cargo" id="seleccionar" required>
-                        {% for puesto in c %}
-                        <option value="{{puesto.id}}">{{puesto.cargo}}</option>
-                        {% endfor %}
-                    </select><br><br>
-                    <label for="">Empleado:</label><br>
-                    <input type="text" style="height: 30px;" name="empleado" id="empleado" class="form-control" required=""><br>
-                    <label for="">Años Laborados:</label><br>
-                    <input type="number" name="anios" id="anios" value="0" class="form-control" required=""><br>
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar</button>
-                </form>
+
+    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#newTipo"><i class="fas fa-plus"></i>Ingresar a planilla</a>
+    <div class="modal fade" id="newTipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ingreso en planilla</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-inline">
+                                    <label class="col-sm-4">Area:</label><br>
+                                    <select class="form-control col-sm-8" name="cargo" id="seleccionar" required="">
+                                        {% for puesto in c %}
+                                        <option value="{{puesto.id}}">{{puesto.cargo}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-inline">
+                                    <label class="col-sm-4">Empleado:</label><br>
+                                    <input type="text" class="form-control col-sm-6" name="empleado" id="empleado" class="form-control" required="">
+                                </div>
+                                <div class="form-inline">
+                                    <label class="col-sm-4">Años Laborados:</label><br>
+                                    <input type="number" name="anios" id="anios" value="0" class="form-control col-sm-6" required="">
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <section class="container">
+    <br>
     <div class="tabla-0">
         <table class="table table-hover">
-            <caption class="titulo-0">PLANILLA DE SALARIOS</caption>
+            <thead class="titulo-0"><h1 class="text-center">PLANILLA DE SALARIOS</h1></thead>
             <thead class="bg-info">
                 <th style="padding-left: 2px; padding-right: 2px; text-align: center;">ID</th>
                 <th style="padding-left: 2px; padding-right: 2px; text-align: center;">Empleado</th>
@@ -85,9 +129,13 @@ Planilla de Salarios
 {% endif %}
 {% if val == 2 %}
 <section class="container" style="margin-top:1%;">
-    <div class="tabla-0">
+    <button class="btn btn-info" onclick="mostrar('AP')">Area de produccion</button>
+    <button class="btn btn-info" onclick="mostrar('AM')">Area de mercadeo</button>
+    <button class="btn btn-info" onclick="mostrar('AA')">Area de administracion</button>
+    <br><br>
+    <div class="tabla-0" id="AP">
         <table class="table table-hover">
-            <caption class="titulo-0">Área de Producción</caption>
+            <thead class="titulo-0"><h2 class="text-center">Área de Producción</h2></thead>
             <thead class="bg-info">
                 <th style="padding-left: 2px; padding-right: 2px;">Empleado</th>
                 <th style="padding-left: 2px; padding-right: 2px;">Cargo</th>
@@ -127,9 +175,9 @@ Planilla de Salarios
             </tr>
         </table>
     </div>
-    <div class="tabla-0">
+    <div class="tabla-0" id="AM">
         <table class="table table-hover">
-            <caption class="titulo-0">Área de Mercadeo</caption>
+            <thead class="titulo-0"><h2 class="text-center">Área de Mercadeo</h2></thead>
             <thead class="bg-info">
                 <th style="padding-left: 2px; padding-right: 2px;">Empleado</th>
                 <th style="padding-left: 2px; padding-right: 2px;">Cargo</th>
@@ -169,9 +217,9 @@ Planilla de Salarios
             </tr>
         </table>
     </div>
-    <div class="tabla-0">
+    <div class="tabla-0" id="AA">
         <table class="table table-hover">
-            <caption class="titulo-0">Área de Administración</caption>
+            <thead class="titulo-0"> <h2 class="text-center">Área de Administración</h2></thead>
             <thead class="bg-info">
                 <th style="padding-left: 2px; padding-right: 2px;">Empleado</th>
                 <th style="padding-left: 2px; padding-right: 2px;">Cargo</th>
@@ -215,9 +263,3 @@ Planilla de Salarios
     {% endif %}
 </section>
 {% endblock %}
-
-{% block JavaScript %}
-    <script>
-    	$('#seleccionar').select2();
-    </script>
-{% endblock JavaScript %}

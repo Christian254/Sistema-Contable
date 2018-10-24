@@ -4,252 +4,293 @@
 Estados financieros
 {% endblock Titulo %}
 
+{% block JavaScript %}
+	<script type="text/javascript">
+		var bg = document.getElementById('bg');
+		bg.style.display='none';
+		var er = document.getElementById('er');
+		er.style.display='none';
+		var ec = document.getElementById('ec');
+		ec.style.display='none';
+		function ocultar() {
+			var bg = document.getElementById('bg');
+			bg.style.display='none';
+			var er = document.getElementById('er');
+			er.style.display='none';
+			var ec = document.getElementById('ec');
+			ec.style.display='none';
+			var ec = document.getElementById('bc');
+			ec.style.display='none';
+		}
+		function mostrar(id) {
+			ocultar();
+			var ec = document.getElementById(id);
+			ec.style.display='block';
+		}
+	</script>
+{% endblock JavaScript %}
+
 {% block Contenido %}
-
-<!-- {{ error_message }}
-<p> {{mensaje}} </p> -->
-
 <section class="container">
-<div class="tabla-0" style="width:90%;">
-	<table class="tabla-1" style="width:102%;">
-		<caption class="titulo-0">Balance de comprobacion <br> del {{periodo.fecha_inicio}} al {{periodo.fecha_final}} </caption>
-	<tr id="BC">
-		<th id="BC" >codigo</th>
-		<th id="BC">Nombre de las cuentas</th>
-		<th id="BC">Debe</th>
-		<th id="BC">Haber</th>
-	</tr>
-	{% for libro in periodo.libromayor_set.all %}
-	{% if libro.cuenta == "Utilidad Neta" %}
-	{% else %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endif %}
-	{% endfor %}
-	<tr>
-		<td colspan="2">Totales</td>
-		<td> {{debe}} </td>
-		<td> {{haber}} </td>
-	</tr>
-</table>
+	<div class="row">
+		<div class="col-sm-12">
+			<button class="btn btn-info" id="btn1" onclick="mostrar('bc')">Balance de comprobacion</button>
+			<button class="btn btn-info" id="btn2" onclick="mostrar('bg')">Balance de General</button>
+			<button class="btn btn-info" id="btn3" onclick="mostrar('er')">Estado de resultado</button>
+			<button class="btn btn-info" id="btn4" onclick="mostrar('ec')">Estado de capital</button>
+		</div>
+	</div><br><br>
+
+<div class="tabla-0 row" style="width:90%;" id="bc">
+	<div class="col-sm-12">
+		<table class="tabla-1" style="width:75%;">
+			<thead class="titulo-0 text-center"><h1 class="col-sm-9 text-center">Balance de comprobacion</h1> 
+				<p class="col-sm-9 text-center">del {{periodo.fecha_inicio}} al {{periodo.fecha_final}}</p> 
+			</thead>
+			<tr id="BC">
+				<th id="BC" >codigo</th>
+				<th id="BC">Nombre de las cuentas</th>
+				<th id="BC">Debe</th>
+				<th id="BC">Haber</th>
+			</tr>
+			{% for libro in periodo.libromayor_set.all %}
+			{% if libro.cuenta == "Utilidad Neta" %}
+			{% else %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endif %}
+			{% endfor %}
+			<tr>
+				<td colspan="2">Totales</td>
+				<td> {{debe}} </td>
+				<td> {{haber}} </td>
+			</tr>
+		</table>
+	</div>
 </div>
 
 
-<div class="tabla-0" style="width:90%;">
-	<table class="tabla-1" style="width:102%;">
-		<caption class="titulo-0">Estado de resultados<br> del {{periodo.fecha_inicio}} al {{periodo.fecha_final}} </caption>
-	<tr id="BC">
-		<th id="BC" >codigo</th>
-		<th id="BC">Nombre de las cuentas</th>
-		<th id="BC">Debe</th>
-		<th id="BC">Haber</th>
-	</tr>
-	{% for libro in libR %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}
-	<tr>
-		<td colspan="3">Utilidad</td>
-		<td> {{util}} </td>
-	</tr>
-</table>
+<div class="tabla-0 row" style="width:90%;" id="er">
+	<div class="col-sm-12">
+		<table class="tabla-1" style="width:75%;">
+			<thead class="titulo-0"><h1 class="col-sm-9 text-center">Estado de resultados</h1> 
+				<p class="col-sm-9 text-center">del {{periodo.fecha_inicio}} al {{periodo.fecha_final}} </p>
+			</thead>
+			<tr id="BC">
+				<th id="BC" >codigo</th>
+				<th id="BC">Nombre de las cuentas</th>
+				<th id="BC">Debe</th>
+				<th id="BC">Haber</th>
+			</tr>
+			{% for libro in libR %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="3">Utilidad</td>
+				<td> {{util}} </td>
+			</tr>
+		</table>
+	</div>
 </div>
 
+<div class="tabla-0 row" style="width:90%;" id="ec">
+	<div class="col-sm-12">
+		<table class="tabla-1" style="width:75%;">
+			<thead class="titulo-0"><h1 class="col-sm-9 text-center">Estado de capital</h1> 
+				<p class="col-sm-9 text-center">del {{periodo.fecha_inicio}} al {{periodo.fecha_final}}</p> 
+			</thead>
+			<tr>
+				<th >codigo</th>
+				<th >Nombre de las cuentas</th>
+				<th >Saldo</th>
+			</tr>
+			{% for libro in capitalS %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				<td id="BC"> {{libro.saldo}} </td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td id="BC"> {{utilidad.codCuenta}} </td>
+				<td id="BC"> {{utilidad.cuenta}} </td>
+				<td id="BC"> {{utilidad.saldo}} </td>
+			</tr>
+			{% for libro in capitalI %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				<td id="BC"> {{libro.saldo}} </td>
+			</tr>
+			{% endfor %}
+			{% for libro in capitalD %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				<td id="BC"> {{libro.saldo}} </td>
+			</tr>
+			{% endfor %}
+			{% for libro in capital %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				<td id="BC"> {{libro.saldo}} </td>
+			</tr>
+			{% endfor %}
 
-
-
-<div class="tabla-0" style="width:90%;">
-	<table class="tabla-1" style="width:102%;">
-		<caption class="titulo-0">Estado de capital<br> del {{periodo.fecha_inicio}} al {{periodo.fecha_final}} </caption>
-	<tr>
-		<th >codigo</th>
-		<th >Nombre de las cuentas</th>
-		<th >Saldo</th>
-	</tr>
-	{% for libro in capitalS %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		<td id="BC"> {{libro.saldo}} </td>
-	</tr>
-	{% endfor %}
-	<tr>
-		<td id="BC"> {{utilidad.codCuenta}} </td>
-		<td id="BC"> {{utilidad.cuenta}} </td>
-		<td id="BC"> {{utilidad.saldo}} </td>
-	</tr>
-	{% for libro in capitalI %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		<td id="BC"> {{libro.saldo}} </td>
-	</tr>
-	{% endfor %}
-	{% for libro in capitalD %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		<td id="BC"> {{libro.saldo}} </td>
-	</tr>
-	{% endfor %}
-	{% for libro in capital %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		<td id="BC"> {{libro.saldo}} </td>
-	</tr>
-	{% endfor %}
-
-	<tr>
-		<td colspan="2">CapitalSocial</td>
-		<td> {{totalCapi}} </td>
-	</tr>
-</table>
+			<tr>
+				<td colspan="2">CapitalSocial</td>
+				<td> {{totalCapi}} </td>
+			</tr>
+		</table>
+	</div>
 </div>
 
+<div class="tabla-0 row" style="width:90%;" id="bg">
+	<div class="col-sm-12">
+		<table class="tabla-1" style="width:75%;">
+				<thead class="titulo-0"><h1 class="col-sm-9 text-center">Balance general</h1> 
+					<p class="col-sm-9 text-center">del {{periodo.fecha_inicio}} al {{periodo.fecha_final}}</p> 
+				</thead>
+			<tr id="BC">
+				<th id="BC" >codigo</th>
+				<th id="BC">Nombre de las cuentas</th>
+				<th id="BC">Debe</th>
+				<th id="BC">Haber</th>
+			</tr>
+			{% for libro in activoC %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			{% for libro in activoF %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			{% for libro in activoD %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% for libro in activoK %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			
 
-
-
-<div class="tabla-0" style="width:90%;">
-	<table class="tabla-1" style="width:102%;">
-		<caption class="titulo-0">Balance general<br> del {{periodo.fecha_inicio}} al {{periodo.fecha_final}} </caption>
-	<tr id="BC">
-		<th id="BC" >codigo</th>
-		<th id="BC">Nombre de las cuentas</th>
-		<th id="BC">Debe</th>
-		<th id="BC">Haber</th>
-	</tr>
-	{% for libro in activoC %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}
-	{% for libro in activoF %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}
-	{% for libro in activoD %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% for libro in activoK %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}
-	
-
-	{% for libro in pasivoC %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}	
-	{% for libro in pasivoF %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}	
-	{% for libro in pasivoD %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		{% if libro.saldoDeudor > libro.saldoAcreedor %}
-			<td id="BC"> {{libro.saldo}} </td>
-			<td id="BC"></td>
-		{% else %}
-			<td id="BC"></td>
-			<td id="BC"> {{libro.saldo}} </td>
-		{% endif %}
-	</tr>
-	{% endfor %}
-	{% endfor %}
-	{% for libro in capitalS %}
-	<tr>
-		<td id="BC"> {{libro.codCuenta}} </td>
-		<td id="BC"> {{libro.cuenta}} </td>
-		<td id="BC"></td>
-		<td id="BC"> {{totalCapi}} </td>
-	</tr>
-	{% endfor %}
-		<tr>
-			<td id="BC"> {{utilidad.codCuenta}} </td>
-			<td id="BC"> {{utilidad.cuenta}} </td>
-			<td id="BC"></td>
-			<td id="BC"> {{utilidad.saldo}} </td>
-		</tr>
-	<tr>
-		<td colspan="3">Capital</td>
-		<td> {{capitalTotal}} </td>
-	</tr>
-</table>
+			{% for libro in pasivoC %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}	
+			{% for libro in pasivoF %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}	
+			{% for libro in pasivoD %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				{% if libro.saldoDeudor > libro.saldoAcreedor %}
+					<td id="BC"> {{libro.saldo}} </td>
+					<td id="BC"></td>
+				{% else %}
+					<td id="BC"></td>
+					<td id="BC"> {{libro.saldo}} </td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			{% endfor %}
+			{% for libro in capitalS %}
+			<tr>
+				<td id="BC"> {{libro.codCuenta}} </td>
+				<td id="BC"> {{libro.cuenta}} </td>
+				<td id="BC"></td>
+				<td id="BC"> {{totalCapi}} </td>
+			</tr>
+			{% endfor %}
+				<tr>
+					<td id="BC"> {{utilidad.codCuenta}} </td>
+					<td id="BC"> {{utilidad.cuenta}} </td>
+					<td id="BC"></td>
+					<td id="BC"> {{utilidad.saldo}} </td>
+				</tr>
+			<tr>
+				<td colspan="3">Capital</td>
+				<td> {{capitalTotal}} </td>
+			</tr>
+		</table>
+	</div>
 </div>
-
+<a href="{% url 'contable:reg_transaccion' periodo.id %}" class="btn btn-primary">Registrar transaccion</a>
 </section>
 {% endblock Contenido %}

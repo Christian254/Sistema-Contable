@@ -7,22 +7,30 @@ Periodo Contable
 {% block Contenido %}
 
 
-<section class="container" style="width:70%">
+<section class="container" style="width:80%">
 	<h1 class="text-center">Periodos Contables</h1>
     <p class="text-center">Aquí puede ver todos los periodos contables vigentes</p>	
 
 	{% for p in periodo %}
         <div class="row">
-            <div class="col-sm-7">
-                <a href="{% url 'contable:reg_transaccion' p.id %}" class="estilo">Periodo contable {{p.id}} del {{p.fecha_inicio}} al {{p.fecha_final}} </a>
+            <div class="col-sm-6">
+                <a href="{% url 'contable:estados' p.id %}" class="estilo">Periodo contable {{p.id}} del {{p.fecha_inicio}} al {{p.fecha_final}} </a>
             </div>
-            <div class="col-sm-3">
-                {%if p.activo %}
+            {% if p.activo %}
+                <div class="col-sm-3">
+                    <a href="{% url 'contable:estados' p.id %}"><i class="fas fa-eye"></i> Ver</a>
+                    <a href="{% url 'contable:reg_transaccion' p.id %}"><i class="fas fa-address-card"></i>transaccion</a>
+                </div>
+                <div class="col-sm-3">
                     <div class="alert-success">periodo activo</div> 
-                {% else %}
-                    <div class="alert-danger">periodo cerrado</div>
-                {% endif %}
-            </div>
+                </div>
+            {% else %}
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <div class="alert-danger">periodo cerrado</div> 
+                </div>
+            {% endif %}
         </div>
 	{% endfor %}
 	<form method="POST">
@@ -30,7 +38,7 @@ Periodo Contable
 		<input type="hidden" name="action" id="action" value="cerrar">
 		<p><input type="submit" name="cerrar" id="cerrar" value="cerrar periodo" class="btn btn-danger"></p>
 	</form>
-    <p><a href="" class="btn btn-primary" data-toggle="modal" data-target="#modalNewPeriodo">iniciar nuevo periodo</a></p>
+    <p><a href="" class="btn btn-primary" data-toggle="modal" data-target="#modalNewPeriodo"><i class="fas fa-plus"></i>iniciar nuevo periodo</a></p>
 
     <div class="modal fade" id="modalNewPeriodo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

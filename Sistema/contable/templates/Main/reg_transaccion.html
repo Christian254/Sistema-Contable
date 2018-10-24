@@ -4,39 +4,98 @@
 Ingreso de transaccion
 {% endblock Titulo %}
 
+{% block JavaScript %}
+    <script type="text/javascript">
+        var bg = document.getElementById('LD');
+        bg.style.display='none';
+        function ocultar() {
+            var bg = document.getElementById('LM');
+            bg.style.display='none';
+            var er = document.getElementById('LD');
+            er.style.display='none';
+        }
+        function mostrar(id) {
+            ocultar();
+            var ec = document.getElementById(id);
+            ec.style.display='block';
+        }
+    </script>
+{% endblock JavaScript %}
+
 {% block Contenido %}
 
 <section class="container">
-<p style="font-family: 'Lobster-Regular',cursive;
-    text-align: center;
-    color: #fff;">aqui ingrese las transaciones</p>
-{{ error_message }}
-<p> <h1 font-family: 'Lobster-Regular',cursive;> {{text}} </h1> </p>
+<h1 class="text-center">Aqui ingrese las transaciones</h1>
+{% if error_message %}
+	<p class="alert-danger">{{ error_message }}</p>
+{% endif %}
+{% if text %}
+	<p class="alert-danger">{{text}}</p>
+{% endif %}
 	{% if periodo.activo %}
-	<form action="" method="POST">
-	<div class="form-group form-inline">
-		{% csrf_token %}
-		<input type="hidden" name="action" id="action" value="insert">
-		Cuenta:<br>
-		<select name="cuenta" id="cuenta" required="" ><br>
-		{% for cuenta in cuentas %}
-			<option value="{{cuenta.id}}">{{cuenta.nom_cuenta}}</option>
-		{% endfor %}
-		</select> <br>
-		<p> <label>descripcion:</label> <input type="text" name="descripcion" class="form-control" id="descripcion" required=""> </p>
-		Concepto:<br>
-		<select name="concepto" id="concepto" required="" >
-			<option value="cargar">Cargar</option>
-			<option value="abonar">Abonar</option>
-		</select>
-		<input type="checkbox" name="check" id="check" value="IVA" class="form-control"><label>IVA</label>
-		<br>
-		Monto:<br>
-		<input type="number" name="monto" id="monto" required="" class="form-control"><br>
-
-		<input type="submit" value="Guardar" class="btn btn-primary dropdown-toggle">
-	</div>
-	</form>
+	<p>
+		<a href="" class="btn btn-primary" data-toggle="modal" data-target="#newTransaccion"><i class="fas fa-plus"></i>Nueva Transaccion</a>
+		<button class="btn btn-primary" onclick="mostrar('LM')"><i class="fas fa-address-card"></i>Libro mayor</button>
+		<button class="btn btn-primary" onclick="mostrar('LD')"><i class="fas fa-address-card"></i>Libro diario</button>
+	</p>
+    <div class="modal fade" id="newTransaccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva transaccion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+					<form action="" method="POST">
+						<div class="form-group form-inline">
+							{% csrf_token %}
+							<input type="hidden" name="action" id="action" value="insert">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="col-sm-4">Cuenta:</label>
+										<select class="form-control col-sm-8" name="cuenta" id="cuenta" required="" ><br>
+											<option value="">seleccione</option>
+										{% for cuenta in cuentas %}
+											<option value="{{cuenta.id}}">{{cuenta.nom_cuenta}}</option>
+										{% endfor %}
+										</select>
+									</div><br>
+									<div class="form-group">
+										<label class="col-sm-4">descripcion:</label> 
+										<input type="text" name="descripcion" class="form-control col-sm-8" id="descripcion" required="">
+									</div><br>
+									<div class="form-group">
+										<label class="col-sm-4">Concepto:</label>
+										<select name="concepto" class="form-control col-sm-8" id="concepto" required="" >
+											<option value="">seleccione</option>
+											<option value="cargar">Cargar</option>
+											<option value="abonar">Abonar</option>
+										</select>
+									</div><br>
+									<div class="form-group">
+										<label class="col-sm-4">IVA</label>
+										<input type="checkbox" name="check" id="check" value="IVA" class="form-control col-sm-1">
+									</div><br>
+									<div class="form-group">
+										<label class="col-sm-4">Monto:</label>
+										<input type="number" name="monto" id="monto" required="" class="form-control col-sm-8"><br>
+									</div>
+									<input type="submit" value="Guardar" class="btn btn-primary">
+								</div>
+							</div>
+						</div>
+					</form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 	{% else %}
 		<p>El periodo esta cerrado, por lo tanto usted puede realizar los respectivos ajustes</p>
 	<h1>Realizar los respectivo ajustes</h1>
@@ -73,59 +132,60 @@ Ingreso de transaccion
 	</div>
 	</form>
 	{% endif %}
-	<table class="table table-bordered table-hover">
-		<caption>Transacciones: libro mayor (saldos) </caption>
-		<tr>
-			<th>codigo</th>
-			<th>Nombre de las cuentas</th>
-			<th>Debe</th>
-			<th>Haber</th>
-		</tr>
-		{% for libro in periodo.libromayor_set.all %}
-		<tr>
-			<td> {{libro.codCuenta}} </td>
-			<td> {{libro.cuenta}} </td>
-			<td> {{libro.saldoDeudor}} </td>
-			<td> {{libro.saldoAcreedor}} </td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% if periodo.activo %}
-	<table class="table table-bordered table-hover">
-		<caption>Detalles: libro diario </caption>
-		<tr>
-			<th>codigo de cuenta</th>
-			<th>fecha</th>
-			<th>concepto</th>
-			<th>descripcion</th>
-			<th>debe</th>
-			<th>haber</th>
-		</tr>
-		{% for libro in periodo.libromayor_set.all %}
-			{% for diario in libro.diario_set.all %}
+
+	<div id="LM">
+		<table class="table table-bordered table-hover">
+			<thead><h3 class="text-center">Transacciones: libro mayor (saldos)</h3> </thead>
 			<tr>
-				<td> {{diario.codCuenta}} </td>
-				<td> {{diario.fecha}} </td>
-				<td> {{diario.concepto}} </td>
-				<td> {{diario.descripcion}} </td>
-				<td> {{diario.debe}} </td>
-				<td> {{diario.haber}} </td>
+				<th>codigo</th>
+				<th>Nombre de las cuentas</th>
+				<th>Debe</th>
+				<th>Haber</th>
+			</tr>
+			{% for libro in periodo.libromayor_set.all %}
+			<tr>
+				<td> {{libro.codCuenta}} </td>
+				<td> {{libro.cuenta}} </td>
+				<td> {{libro.saldoDeudor}} </td>
+				<td> {{libro.saldoAcreedor}} </td>
 			</tr>
 			{% endfor %}
-		{% endfor %}
-	</table>
+		</table>
+	</div>
+
+	{% if periodo.activo %}
+		<div id="LD">
+			<table class="table table-bordered table-hover">
+				<thead><h3 class="text-center">Detalles: libro diario</h3> </thead>
+				<tr>
+					<th>codigo de cuenta</th>
+					<th>fecha</th>
+					<th>concepto</th>
+					<th>descripcion</th>
+					<th>debe</th>
+					<th>haber</th>
+				</tr>
+				{% for libro in periodo.libromayor_set.all %}
+					{% for diario in libro.diario_set.all %}
+					<tr>
+						<td> {{diario.codCuenta}} </td>
+						<td> {{diario.fecha}} </td>
+						<td> {{diario.concepto}} </td>
+						<td> {{diario.descripcion}} </td>
+						<td> {{diario.debe}} </td>
+						<td> {{diario.haber}} </td>
+					</tr>
+					{% endfor %}
+				{% endfor %}
+			</table>
+		</div>
 	{% endif %}
 	<form method="POST" action="">
 		{% csrf_token %}
 		<input type="hidden" name="action" id="action" value="comprobar">
 		<input type="submit" name="" value="comprobar" class="btn btn-primary dropdown-toggle">
 	</form>
-	<br>
-		<form method="POST" action="{% url 'contable:estados' periodo.id %}">
-		{% csrf_token %}
-		<input type="hidden" name="action" id="action" value="estados">
-		<input type="submit" name="" value="Estados financieros" class="btn btn-primary dropdown-toggle">
-		</form>
+	<a href="{% url 'contable:estados' periodo.id %}" class="btn btn-primary">Estados financieros</a>
 </section>
 {% endblock Contenido %}
 

@@ -2,59 +2,98 @@
 {% block Titulo %}
 Catalogo de cuentas
 {% endblock Titulo %}
+
+{% block JavaScript %}
+    <script type="text/javascript">
+        var bg = document.getElementById('NC');
+        bg.style.display='none';
+        function ocultar() {
+            var bg = document.getElementById('NC');
+            bg.style.display='none';
+            var er = document.getElementById('CC');
+            er.style.display='none';
+        }
+        function mostrar(id) {
+            ocultar();
+            var ec = document.getElementById(id);
+            ec.style.display='block';
+        }
+    </script>
+{% endblock JavaScript %}
+
+
 {% block Contenido %}
-<label for="detalle" class="bg-danger"> REVISAR NO SE PARA QUE SIRVE</label>
-<input id="detalle" type="submit" value="Administrar cuentas" onclick="CrearCuenta()" />
-<div class="container" onload="Ocultar()">
-    <div class="container">
-        <h3 class="text-center mt-3 mb-3">Tipo de cuenta</h3>
-        <form method="POST" action="">
-            <input type="hidden" name="action" id="action" value="newCuenta">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-4">
-                    <label id="tipo" name="tipo" for="tipo">Tipo cuenta:</label>
-                    <select class="form-control" id="tipo" name="tipo">
-                        <option value="A">Activo</option>
-                        <option value="P">Pasivo</option>
-                        <option value="C">Capital</option>
-                        <option value="R">Resultado</option>
-                    </select>
+
+<div class="container">
+    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#newTipo"><i class="fas fa-plus"></i>Nuevo tipo cuenta</a>
+    <button class="btn btn-primary" onclick="mostrar('NC')"><i class="fas fa-address-card"></i>Nueva cuenta</button>
+    <button class="btn btn-primary" onclick="mostrar('CC')"><i class="fas fa-address-card"></i>Catalogo de cuenta</button>
+    <div class="modal fade" id="newTipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva tipo de cuenta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="col-4">
-                    <label>Nombre:</label>
-                    <input class="form-control" type="text" name="nombret" id="nombret"><br>
+                <div class="modal-body">
+                    <form method="POST" action="">
+                        <input type="hidden" name="action" id="action" value="newCuenta">
+                        {% csrf_token %}
+                        <div class="form-group form-inline">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label id="tipo" class="col-sm-6">Tipo cuenta:</label>
+                                    <select class="form-control col-sm-6" id="tipo" name="tipo" required="">
+                                        <option value="">seleccione</option>
+                                        <option value="A">Activo</option>
+                                        <option value="P">Pasivo</option>
+                                        <option value="C">Capital</option>
+                                        <option value="R">Resultado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6">Nombre:</label>
+                                    <input class="form-control col-sm-6" type="text" name="nombret" id="nombret" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6"> Grupo cuenta: </label>
+                                    <select class="form-control col-sm-6" id="grupo" required="" name="grupo">
+                                        <option value="">seleccione</option>
+                                        <option value="C">Circulante</option>
+                                        <option value="F">Fijo</option>
+                                        <option value="D">Diferido</option>
+                                        <option value="T">Capital o resultado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6">Nombre del grupo: </label>
+                                    <input class="form-control col-sm-6" type="text" required="" name="nombreg" id="nombreg"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6">Descripcion:</label>
+                                    <input class="form-control col-sm-6" type="text" required="" name="descripciong" id="descripciong">
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-primary mb-4 center" type="submit" name="btn" id="btn">
+                                <i class="fas fa-plus-square"></i> Ingresar tipo de cuenta
+                            </button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
-                <div class="col-4">
-                    <label> Grupo cuenta: </label>
-                    <select class="form-control" id="grupo" name="grupo">
-                        <option value="C">Circulante</option>
-                        <option value="F">Fijo</option>
-                        <option value="D">Diferido</option>
-                        <option value="T">Capital o resultado</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <label>Nombre del grupo: </label>
-                    <input class="form-control" type="text" name="nombreg" id="nombreg"><br>
-                </div>
-                <div class="col-6">
-                    <label>Descripcion:</label>
-                    <input class="form-control" type="text" name="descripciong" id="descripciong">
-                </div>
-            </div>
-            <div class="row justify-content-center">
-            	<button class="btn btn-outline-primary mb-4" type="submit" name="btn" id="btn">
-            		<i class="fas fa-plus-square"></i> Ingresar tipo de cuenta
-            	</button>
-            </div>            
-        </form>
+        </div>
     </div>
-    <div class="container">
+    <div class="container" id="NC">
         <table class="table table-hover">
-            <caption class="titulo-01">Crear cuenta</caption>
+            <thead class="titulo-01"><h2 class="text-center">Seleccione el grupo de la nueva cuenta</h2></thead>
             <thead class="bg-info">
                 <th>Cuenta</th>
                 <th>Accion</th>
@@ -68,9 +107,9 @@ Catalogo de cuentas
         </table>
     </div>
 </div>
-<div class="container">
+<div class="container" id="CC">
     <table class="table table-hover">
-        <caption class="titulo-0">Catalogo de cuentas </caption>
+        <thead class="titulo-0"><h1 class="text-center">Catalogo de cuentas</h1> </thead>
         <thead class="bg-info">
             <th>Codigo cuenta</th>
             <th>Cuenta</th>
