@@ -728,6 +728,16 @@ def estados (request,periodo_id):
 
 	capitalTotal=-AC1-AF1-AK1-AD1+P1+totalCapi
 
+
+	#Estado Flujo de Efectivo
+	#Funciona cuando el periodo ya tiene la cuenta de efectivo porque es necesario
+	efectivoActual = LibroMayor.objects.get(periodo=periodo_id,codCuenta__contains='AC000')
+	variacion_efectivo = False
+	if int(periodo_id) > 1 and efectivoActual:
+		periodo_anterior = int(periodo_id) - 1 
+		efectivoAnterior = LibroMayor.objects.get(periodo= periodo_anterior,codCuenta__contains='AC000')
+		variacion_efectivo = efectivoActual.saldo - efectivoAnterior.saldo
+
 	context ={
 #		'utilidad':utilidad1,
 		'util':util,
@@ -750,7 +760,8 @@ def estados (request,periodo_id):
 		'capital':capital,
 		'totalCapi':totalCapi,
 		'capitalTotal':capitalTotal,
-	}
+		'variacion': variacion_efectivo,
+	}	 
 	return HttpResponse(template.render(context,request ))
 
 
