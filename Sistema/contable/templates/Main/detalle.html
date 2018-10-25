@@ -46,14 +46,13 @@ Detalle de kardex
 		            </div>
 		        </div>
 		    </div>
-		    <div class="form-group">
 		    {% for k in kardex %} 
-		    	<div class="col-sm-24 form-inline">
-					<p><h4 class="col-sm-18">{{k.nombre}}</h4> 
-					<h4><a class="col-sm-6" href="{% url 'contable:CostoPromedio' k.id %}">ver kardex</a></h4></p>
-	    		</div>
+		    	<div class="col-md-12 form-inline">
+					<h4 class="col-sm-6">{{k.nombre}}</h4> 
+					<a class="btn btn-info col-sm-2" href="{% url 'contable:CostoPromedio' k.id %}"><i class="fas fa-eye"></i> ver kardex</a>
+	    		</div><br>
 			{% endfor %}
-			</div>
+			
 		</div>
 	</div>
 {% else %}

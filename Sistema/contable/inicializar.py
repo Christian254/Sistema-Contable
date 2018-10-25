@@ -66,7 +66,7 @@ def iniciarOrden():
 	p=len(pe)
 	for cuenta in cuentas :
 		try:
-			libro = LibroMayor.objects.get(cuenta=cuenta.nom_cuenta)
+			libro = LibroMayor.objects.get(cuenta=cuenta.nom_cuenta,periodo_id=p)
 		except (KeyError, LibroMayor.DoesNotExist):
 			libro1 = LibroMayor()
 			concepto = 'inicio'
@@ -211,7 +211,7 @@ def cuentaKardex(pk_cuenta,p,monto,prod):
 	cuenta = Cuenta.objects.get(codigo_cuenta=pk_cuenta)
 	cuenta1 = Cuenta.objects.get(codigo_cuenta=prod)
 	try:
-		libro = LibroMayor.objects.get(cuenta=cuenta.nom_cuenta)
+		libro = LibroMayor.objects.get(cuenta=cuenta.nom_cuenta,periodo_id=p)
 		concepto = 'Cargado'
 		diario =Diario()
 		diario.mayor= libro
@@ -248,7 +248,7 @@ def cuentaKardex(pk_cuenta,p,monto,prod):
 		libro1.save()
 		diario.save()
 	try:
-		libro1 = LibroMayor.objects.get(cuenta=cuenta1.nom_cuenta)
+		libro1 = LibroMayor.objects.get(cuenta=cuenta1.nom_cuenta,periodo_id=p)
 		concepto = 'abonado'
 		diario1 =Diario()
 		diario1.mayor= libro1
@@ -309,16 +309,11 @@ def inicializarCuenta():
 		cuenta.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Mano de obra directa',descripcion='Mano de obra directa',codigo_cuenta='AC005')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		cuenta = Cuenta(grupo = grup, nom_cuenta='CIF',descripcion='Costos indirectos de fabricacion',codigo_cuenta='AC006')
 		cuenta.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Iva Acreditable',descripcion='Iva pagado',codigo_cuenta='AC007')
 		cuenta.save()
-
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		#activos fijos
 		tipo = TipoCuenta(nom_tipo='Activo',codigo_tcuenta='A',disminuye_en='001',aumenta_en='001')
@@ -341,8 +336,6 @@ def inicializarCuenta():
 		grup.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos pagados por adelantado',descripcion='Gastos pagados por adelantado o anticipado',codigo_cuenta='AD000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		#ContraCuenta Activos
 		tipo = TipoCuenta(nom_tipo='Activo',codigo_tcuenta='A',disminuye_en='001',aumenta_en='001')
@@ -351,16 +344,10 @@ def inicializarCuenta():
 		grup.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Depreciacion Acumulada',descripcion='Refleja el descuento del costo original del equipo',codigo_cuenta='AK000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Amortizacion Acumulada',descripcion='Declinamiento de los activos no tangibles',codigo_cuenta='AK001')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Agotamiento Acumulado',descripcion='Declinacion del valor de los recursos naturales',codigo_cuenta='AK002')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		#pasivos circulantes
 		tipo = TipoCuenta(nom_tipo='Pasivo',codigo_tcuenta='P',disminuye_en='001',aumenta_en='001')
@@ -373,8 +360,6 @@ def inicializarCuenta():
 		cuenta.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Iva Retenido',descripcion='Iva por pagar',codigo_cuenta='PC002')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		#Pasivos fijos
 		tipo = TipoCuenta(nom_tipo='Pasivo',codigo_tcuenta='P',disminuye_en='001',aumenta_en='001')
@@ -397,16 +382,10 @@ def inicializarCuenta():
 		grup.save()		
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Capital Social',descripcion='Capital social',codigo_cuenta='CS000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Inveriones',descripcion='Capital Invertido durante el periodo',codigo_cuenta='CI001')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Desembolsos',descripcion='Capital social',codigo_cuenta='CD002')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		#inicializamos cuentas Resultado
 		tipo = TipoCuenta(nom_tipo='Resultado',codigo_tcuenta='R',disminuye_en='001',aumenta_en='001')
@@ -415,47 +394,25 @@ def inicializarCuenta():
 		grup.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Ingreso por ventas',descripcion='ingresos normales de la empresa',codigo_cuenta='RI000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Costo de lo vendido',descripcion='costos de fabricacion de un producto',codigo_cuenta='RCV00')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Utilidad Neta',descripcion='Perdida o ganancia de la empresa',codigo_cuenta='UT000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos de operacion',descripcion='Gastos operativos de la empresa',codigo_cuenta='RGO00')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos de Administracion',descripcion='Gastos administrativos de la empresa',codigo_cuenta='RGA00')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Otros Gastos',descripcion='Otros Gastos de la empresa',codigo_cuenta='ROG00')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos por salarios',descripcion='Gastos por salario',codigo_cuenta='RGS')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos por depreciacion',descripcion='Gastos por depreciacion de activos fijos',codigo_cuenta='RD000')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos por amortizacion',descripcion='Gastos por amortizacion de bienes intangibles',codigo_cuenta='RD001')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Gastos por agotamiento',descripcion='Gastos por agotamiento de recursos',codigo_cuenta='RD002')
 		cuenta.save()
-		libro = LibroMayor(cuenta=cuenta.nom_cuenta,codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
-		libro.save()
-
-
 
 		padre = Cuenta.objects.get(codigo_cuenta = 'PC000')
 		grup = GrupoCuenta.objects.get(nom_grupo='Pasivo Circulante')

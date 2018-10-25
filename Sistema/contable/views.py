@@ -75,7 +75,9 @@ def index(request):
 def OF(request):
 	template=loader.get_template('Main/OrdenesFabricacion.html')
 	iniciarOrden()
-	libro = LibroMayor.objects.filter(codCuenta__contains='ACO')
+	periodo = PeriodoContable.objects.all()
+	p = len(periodo)
+	libro = LibroMayor.objects.filter(codCuenta__contains='ACO',periodo_id=p)
 	if request.method=='POST':
 		action = request.POST.get('action',None)
 		if action=='editar':
@@ -95,7 +97,7 @@ def OF(request):
 			i = len(PeriodoContable.objects.all())
 			cuentaKardex('AC005',i,monto1,opcion)
 			cuentaKardex('AC006',i,cif,opcion)
-	orden= LibroMayor.objects.filter(codCuenta__contains='ACO')
+	orden= LibroMayor.objects.filter(codCuenta__contains='ACO',periodo_id=p)
 	for o in orden:
 		o.saldo= float(o.saldoDeudor) - float(o.saldoAcreedor)
 		o.save()
@@ -273,7 +275,6 @@ def CP(request, kardex_id):
 			p = len(pe)
 			orden1 = get_object_or_404(LibroMayor,codCuenta=pk_cuenta,periodo=p)
 			precEntrada=orden1.saldo/ int(cantEntrada)
-
 			newKard = ingresarKardex(int(kardex1.id),fecha,cantEntrada,precEntrada)
 			if p > 0 :
 				prod= ''
@@ -282,6 +283,11 @@ def CP(request, kardex_id):
 				else :
 					prod='AC002'
 				cuentaKardex(pk_cuenta,p,newKard.montoEntrada,prod)
+			orden1.saldo=0
+			orden1.saldoDeudor=0
+			orden1.saldoAcreedor=0
+			orden1.estado=False
+			orden1.save()
 
 		elif action =='delete':
 			i =0
@@ -372,6 +378,7 @@ def CP(request, kardex_id):
 			if i > 0:
 				CV = 0
 				MD =0
+				mostrar=True
 				for kardex in kard :
 					CV +=kardex.montoSalida
 					MD +=kardex.montoEntrada
@@ -382,13 +389,14 @@ def CP(request, kardex_id):
 				'CV':CV,
 				'MD':MD,
 				'final':final,
+				'mostrar':mostrar,
 			}
 			return HttpResponse(template.render(context,request ))
 	return HttpResponse(template.render(context,request ))
 
 def nuevoPeriodo(request):
 	template=loader.get_template('Main/nuevoPeriodo.html')
-	periodo = PeriodoContable.objects.all().order_by('-activo')
+	periodo = PeriodoContable.objects.all().order_by('-id')
 	mensaje=''
 	if request.method=='POST':
 		action = request.POST.get('action',None)
