@@ -156,7 +156,13 @@ Estados financieros
 				<td id="BC"> {{libro.saldo}} </td>
 			</tr>
 			{% endfor %}
-
+			{% if util > 0 %}
+			<tr>
+				<td id="BC"> UT001 </td>
+				<td id="BC"> Utilidad </td>
+				<td id="BC"> {{util}} </td>
+			</tr>
+			{% endif %}
 			<tr>
 				<td colspan="2">CapitalSocial</td>
 				<td> {{totalCapi}} </td>

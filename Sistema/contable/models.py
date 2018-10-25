@@ -58,6 +58,7 @@ class OrdenFab(models.Model):
 	manoObra=models.FloatField(default=0)
 	cif= models.FloatField(default=0)
 	invInici=models.FloatField(default=0)
+	estado = models.BooleanField(default=True)
 
 class Diario(models.Model):
 	mayor = models.ForeignKey(LibroMayor, blank=False, null=False)

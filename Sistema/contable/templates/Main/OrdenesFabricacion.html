@@ -4,45 +4,64 @@ Ordenes de fabricacion
 {% endblock Titulo %}
 {% block Contenido %}
 {% if user.is_authenticated %}
-<p class="bg-danger">REVISAR NO SE QUE HACE y da error de JQUERY :'v no he borrado ningún js</p>
-<input id="detalle" type="submit" value="Editar orden" onclick="CrearCuenta()" />
 <div class="container">
-    <h2 class="text-center">Editar orden</h2>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <input type="hidden" name="action" id="action" value="editar">
-        <div class="row">
-            <div class="col-4">
-                <label for="opcion">OF:</label><br>
-                <select class="form-control" id="opcion" name="opcion">
-                    {% for c in orden %}
-                    <option value="{{c.codCuenta}}">
-                        {{c.cuenta}}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-4">
-                <label>MOD:</label>
-                <input type="number" name="MOD" id="MOD" class="form-control" step="0.01">
-            </div>
-            <div class="col-4">
-                <label>CIF (%):</label>
-                <input type="number" name="CIF" id="CIF" class="form-control" step="0.01">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#newInsert"><i class="fas fa-plus"></i>Editar orden</button>
+    <div class="modal fade" id="newInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva transaccion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" id="action" value="editar">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="opcion">OF:</label><br>
+                                <select class="form-control" id="opcion" name="opcion" required="">
+                                    <option value="">Seleccione una opcion</option>
+                                    {% for c in orden %}
+                                        {% if c.estado %}
+                                            <option value="{{c.codCuenta}}">
+                                                {{c.cuenta}}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label>MOD:</label>
+                                <input type="number" name="MOD" id="MOD" class="form-control" step="0.01">
+                            </div>
+                            <div class="col-4">
+                                <label>CIF (%):</label>
+                                <input type="number" name="CIF" id="CIF" class="form-control" step="0.01">
+                            </div>
+                        </div>
+                        <div class="row mt-2 justify-content-center">
+                            <button type="submit" name="btn" id="btn" class="btn btn-outline-primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-fill btn-danger btn-wd btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
-        <div class="row mt-2 justify-content-center">
-            <button type="submit" name="btn" id="btn" class="btn btn-outline-primary">
-                <i class="fas fa-save"></i> Guardar
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
 <section class="container" style="margin-top:1%">
     <table class="table table-hover">
-        <caption class="titulo-01">Ordenes de fabricacion</caption>
+        <caption class="titulo-01">Ordenes</caption>
         <thead class="text-center">
-            <th colspan="4"> ORDENES </th>
+            <th colspan="4"> ORDENES DE FABRICACION</th>
         </thead>
         <thead class="bg-info">
             <th>codigo cuenta</th>

@@ -78,6 +78,7 @@ def OF(request):
 	periodo = PeriodoContable.objects.all()
 	p = len(periodo)
 	libro = LibroMayor.objects.filter(codCuenta__contains='ACO',periodo_id=p)
+	error=''
 	if request.method=='POST':
 		action = request.POST.get('action',None)
 		if action=='editar':
@@ -86,22 +87,25 @@ def OF(request):
 			monto2= request.POST.get('CIF',None)
 			try:
 				orden=OrdenFab.objects.get(codCuenta=opcion)
-			except Exception as e:
+			except OrdenFab.DoesNotExist:
 				orden=OrdenFab(codCuenta=opcion)
-
-			orden.manoObra=float(monto1)
-			cif = float(monto1)*(float(monto2)/100)
-			orden.cif=cif
-			orden.saldo=orden.saldo+cif+float(monto1)
-			orden.save()
-			i = len(PeriodoContable.objects.all())
-			cuentaKardex('AC005',i,monto1,opcion)
-			cuentaKardex('AC006',i,cif,opcion)
+			if orden.estado:
+				orden.manoObra=float(monto1)
+				cif = float(monto1)*(float(monto2)/100)
+				orden.cif=cif
+				orden.saldo=orden.saldo+cif+float(monto1)
+				orden.save()
+				i = len(PeriodoContable.objects.all())
+				cuentaKardex('AC005',i,monto1,opcion)
+				cuentaKardex('AC006',i,cif,opcion)
+			else:
+				error = "Esa orden ya esta terminada, por favor cree una nueva orden para este periodo"
 	orden= LibroMayor.objects.filter(codCuenta__contains='ACO',periodo_id=p)
 	for o in orden:
 		o.saldo= float(o.saldoDeudor) - float(o.saldoAcreedor)
 		o.save()
 	context={
+		'error':error,
 		'libro':libro,
 		'orden':orden,
 	}
@@ -109,15 +113,16 @@ def OF(request):
 
 
 def terminar(request, of_id):
-	template=loader.get_template('Main/OrdenesFabricacion.html')
 	terminada = LibroMayor.objects.get(pk=of_id)
 	terminada.estado=False
 	terminada.save()
-	orden= LibroMayor.objects.filter(codCuenta__contains='ACO')
-	context={
-		'orden':orden,
-	}
-	return HttpResponse(template.render(context , request))
+	try:
+		orden=OrdenFab.objects.get(codCuenta=terminada.codCuenta)
+	except OrdenFab.DoesNotExist:
+		orden=OrdenFab(codCuenta=opcion)
+	orden.estado=False
+	orden.save()
+	return redirect("/OF/")
 
 def ver(request, of_id):
 	template=loader.get_template('Main/ver.html')
@@ -665,7 +670,6 @@ def estados (request,periodo_id):
 	libR = LibroMayor.objects.filter(periodo=periodo,codCuenta__contains ='R')
 	for t in libR :
 		util += t.saldoAcreedor-t.saldoDeudor
-	
 #	utilidad1 = LibroMayor.objects.get(codCuenta='UT000')
 #	utilidad1.saldo=util
 #	utilidad1.save()
