@@ -12,6 +12,8 @@ from .models import *
 from decimal import *
 from contable.inicializar import *
 from django.contrib import messages
+from django.db.models import Q
+
 #metodo para logearse
 def auth_login(request):
 	if request.method == 'POST':
@@ -427,9 +429,22 @@ def nuevoPeriodo(request):
 			periodo1.usr_aperturo = us
 			periodo1.usr_cerro =usf
 			periodo1.save()
+			i = len(periodo)
+			if i>0:
+				periodoAnterior = periodo.first()
+				for x in periodoAnterior.libromayor_set.all():
+					saldo = abs(x.saldoDeudor - x.saldoAcreedor)
+					if x.saldoDeudor > x.saldoAcreedor:
+						lib = LibroMayor(cuenta=x.cuenta,codCuenta=x.codCuenta,saldoDeudor=saldo,saldoAcreedor=0,periodo=periodo1,saldo=saldo)
+						lib.save()
+						print(lib)
+					if x.saldoAcreedor > x.saldoDeudor:
+						lib = LibroMayor(cuenta=x.cuenta,codCuenta=x.codCuenta,saldoDeudor=0,saldoAcreedor=saldo,periodo=periodo1,saldo=saldo)
+						lib.save()
+						print(lib)
 			if periodo1.fecha_inicio == periodo1.fecha_final :
 				mensaje='no puede ingresar la misma fecha inicial y final, pero por ser pruebas admito lo que sea XD por ahorita, enrealidad solo pedira la fecha de inicio y a esta se le sumara un mes'
-			periodo = PeriodoContable.objects.all()
+			periodo = PeriodoContable.objects.all().order_by('-id')
 			context={
 				'periodo':periodo,
 				'mensaje':mensaje,
@@ -731,12 +746,34 @@ def estados (request,periodo_id):
 
 	#Estado Flujo de Efectivo
 	#Funciona cuando el periodo ya tiene la cuenta de efectivo porque es necesario
-	efectivoActual = LibroMayor.objects.get(periodo=periodo_id,codCuenta__contains='AC000')
-	variacion_efectivo = False
-	if int(periodo_id) > 1 and efectivoActual:
+	cuentaActual = False
+	cuentaAnterior = False
+	saldosActivos = []
+	saldosPasivos = []
+	if int(periodo_id) >= 2:
+		cuentaActual = LibroMayor.objects.filter(periodo=periodo_id,codCuenta__contains='A').exclude(codCuenta__contains='AK')
 		periodo_anterior = int(periodo_id) - 1 
-		efectivoAnterior = LibroMayor.objects.get(periodo= periodo_anterior,codCuenta__contains='AC000')
-		variacion_efectivo = efectivoActual.saldo - efectivoAnterior.saldo
+		cuentaAnterior = LibroMayor.objects.filter(periodo=periodo_anterior,codCuenta__contains='A').exclude(codCuenta__contains='AK')
+		for c in cuentaActual:
+			for c_a in cuentaAnterior:
+				if c.codCuenta == c_a.codCuenta:
+					saldoActual = c.saldo - c_a.saldo
+					saldo={}
+					saldo['codigo']=c.cuenta
+					saldo['saldoActual']=saldoActual
+					saldo['tipo']='operacion'
+					saldosActivos.append(saldo)
+		cuentaActual = LibroMayor.objects.filter(Q(codCuenta__contains='AK') | Q(codCuenta__contains='PC0')).filter(periodo=periodo_id)
+		cuentaAnterior = LibroMayor.objects.filter(Q(codCuenta__contains='AK') | Q(codCuenta__contains='PC0')).filter(periodo=periodo_anterior)
+		for c in cuentaActual:
+			for c_a in cuentaAnterior:
+				if c.codCuenta == c_a.codCuenta:
+					saldoActual = c.saldo - c_a.saldo
+					saldo={}
+					saldo['codigo']=c.codCuenta
+					saldo['saldoActual']=saldoActual
+					saldo['tipo']='operacion'
+					saldosPasivos.append(saldo)
 
 	context ={
 #		'utilidad':utilidad1,
@@ -759,8 +796,12 @@ def estados (request,periodo_id):
 		'capitalD':capitalD,
 		'capital':capital,
 		'totalCapi':totalCapi,
-		'capitalTotal':capitalTotal,
-		'variacion': variacion_efectivo,
+		'capitalTotal':capitalTotal,				
+		'cuentas': cuentaActual,
+		'cuentas_ant': cuentaAnterior, 		
+		'periodo_id': int(periodo_id),
+		'variacionActivos': saldosActivos,
+		'variacionPasivos': saldosPasivos,		
 	}	 
 	return HttpResponse(template.render(context,request ))
 

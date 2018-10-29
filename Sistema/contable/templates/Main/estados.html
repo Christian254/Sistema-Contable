@@ -298,138 +298,58 @@ function mostrar(id) {
                 <h1 class="text-center">Flujo de Efectivo</h1>
             </div>
         </div>
-        {% if variacion %}
+        {% if periodo_id > 1 %}
         <div class="row">
             <div class="col">
                 <h2 class="text-center"> Metodo Indirecto</h2>
             </div>
-        </div>
-        <div class="row justify-content-around mb-3">
-            <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseAO" aria-expanded="false" aria-controls="collapseExample">
-                Actividades de Operación
-            </button>
-            <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseAI" aria-expanded="false" aria-controls="collapseExample">
-                Actividades de Inversion
-            </button>
-            <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseAF" aria-expanded="false" aria-controls="collapseExample">
-                Actividades de Financiación
-            </button>
-        </div>
-        <div class="accordion" id="accordionExample">
-            <div class="row mt-3 collapse mb-3" id="collapseAO" data-parent="#accordionExample">
-                <div class="col">
-                    <table class="table table-hover">
-                        <thead>
-                            <th class="text-center bg-info" colspan="2"><h6>Flujo de efectivo de las actividades de operación</h6>
-                            </th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Utilidad</td>
-                                <td>{{util}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-center">Partidas que no tienen efecto en el efectivo.</td>
-                            </tr>
-                            <tr>
-                                <td> (+) Depreciaciones</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Amortizaciones</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Ingresos por recuperaciones</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-center">Variación en partidas relacionadas con las actividades de operación</td>
-                            </tr>
-                            <tr>
-                                <td> (+) Incremento obligaciones laborales</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Incremento impuestos por pagar:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Incremento cuentas por pagar</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Disminución de inventarios:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Incremento cuentas por cobrar:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-center"> Efectivo generado por actividades de operación = 86.000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </div>       
+        <div class="row">
+            <div class="col">
+                <h4 class="text-center">Tabla de Variaciones de las cuentas</h4>
+                <table class="table table-hover">
+                    <thead class="bg-info">
+                        <th>Cuenta</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Tipo de Operación</th>                      
+                    </thead>
+                    <tbody>
+                    	<tr>
+                    		<td>utilidad</td>
+                    		<td>{{util}}</td>
+                    		<td></td>
+                    	</tr>
+                        {% for c in variacionActivos %}
+                        <tr>
+                        	<td>{{c.codigo}}</td>
+                            {% if c.saldoActual >= 0 %}                            
+                            <td></td>
+                            <td>{{c.saldoActual}}</td>
+                            {% else %}
+							<td>{{c.saldoActual}}</td>
+                            <td></td>
+                            {% endif %}
+                            <td>{{c.tipo}}</td>
+                        </tr>
+                        {% endfor %}
+                        {% for c in variacionPasivos %}
+                        <tr>
+                        	<td>{{c.codigo}}</td>
+                            {% if c.saldoActual >= 0 %}                            
+                            <td>{{c.saldoActual}}</td>
+                            <td></td>
+                            {% else %}
+                            <td></td>
+                            <td>{{c.saldoActual}}</td>							
+                            {% endif %}
+                            <td>{{c.tipo}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div class="row mt3 collapse mb-3" id="collapseAI" data-parent="#accordionExample">
-                <div class="col">
-                    <table class="table table-hover">
-                        <thead>
-                            <th class="text-center bg-info" colspan="2"><h6> Actividades de Inversión</h6>
-                            </th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Venta de Inversiones</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Venta de vehículo usado:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Compra de maquinaria:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Compra de Muebles</td>
-                                <td> Algún dato </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row mt3 collapse mb-3" id="collapseAF" data-parent="#accordionExample">
-                <div class="col">
-                    <table class="table table-hover">
-                        <thead>
-                            <th class="text-center bg-info" colspan="2"><h6> Actividades de Financiamiento</h6>
-                            </th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Capitalización mediante emisión de acciones</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (+) Venta de bonos:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Pago de obligaciones financieras:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                            <tr>
-                                <td> (-) Pago de participaciones:</td>
-                                <td> Algún dato </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        </div>        
         {% else %}
         <div class="alert alert-info text-center">Este es el primer periodo así que no hay otro periodo para comparar</div>
         {% endif %}

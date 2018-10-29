@@ -294,6 +294,8 @@ def inicializarCuenta():
 		grup.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Efectivo',descripcion='Activo de facil recuperacion',codigo_cuenta='AC000')
 		cuenta.save()
+		libro = LibroMayor(cuenta=cuenta.nom_cuenta, codCuenta=cuenta.codigo_cuenta,saldoDeudor=0,saldoAcreedor=0,periodo=periodo)
+		libro.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Cuentas por cobrar',descripcion='Cuentas de rapido cobro',codigo_cuenta='AC001')
 		cuenta.save()
 		cuenta = Cuenta(grupo = grup, nom_cuenta='Inventario de PT',descripcion='Inventario de producto terminado',codigo_cuenta='AC002')
