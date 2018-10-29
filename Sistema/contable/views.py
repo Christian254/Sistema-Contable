@@ -742,7 +742,7 @@ def estados (request,periodo_id):
 		P1 += t.saldoAcreedor-t.saldoDeudor
 
 	capitalTotal=-AC1-AF1-AK1-AD1+P1+totalCapi
-
+	print(capitalTotal)
 
 	#Estado Flujo de Efectivo
 	#Funciona cuando el periodo ya tiene la cuenta de efectivo porque es necesario
@@ -802,7 +802,7 @@ def estados (request,periodo_id):
 		'periodo_id': int(periodo_id),
 		'variacionActivos': saldosActivos,
 		'variacionPasivos': saldosPasivos,		
-	}	 
+	}
 	return HttpResponse(template.render(context,request ))
 
 

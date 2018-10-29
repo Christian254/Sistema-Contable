@@ -55,20 +55,20 @@ function mostrar(id) {
                     <th id="BC">Haber</th>
                 </tr>
                 {% for libro in periodo.libromayor_set.all %}
-                {% if libro.cuenta == "Utilidad Neta" %}
-                {% else %}
-                <tr>
-                    <td id="BC"> {{libro.codCuenta}} </td>
-                    <td id="BC"> {{libro.cuenta}} </td>
-                    {% if libro.saldoDeudor > libro.saldoAcreedor %}
-                    <td id="BC"> {{libro.saldo}} </td>
-                    <td id="BC"></td>
+                    {% if libro.cuenta == "Utilidad Neta" %}
                     {% else %}
-                    <td id="BC"></td>
-                    <td id="BC"> {{libro.saldo}} </td>
+                    <tr>
+                        <td id="BC"> {{libro.codCuenta}} </td>
+                        <td id="BC"> {{libro.cuenta}} </td>
+                        {% if libro.saldoDeudor > libro.saldoAcreedor %}
+                        <td id="BC"> {{libro.saldo}} </td>
+                        <td id="BC"></td>
+                        {% else %}
+                        <td id="BC"></td>
+                        <td id="BC"> {{libro.saldo}} </td>
+                        {% endif %}
+                    </tr>
                     {% endif %}
-                </tr>
-                {% endif %}
                 {% endfor %}
                 <tr>
                     <td colspan="2">Totales</td>
@@ -193,6 +193,7 @@ function mostrar(id) {
                     {% endif %}
                 </tr>
                 {% endfor %}
+
                 {% for libro in activoF %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
@@ -206,6 +207,7 @@ function mostrar(id) {
                     {% endif %}
                 </tr>
                 {% endfor %}
+                
                 {% for libro in activoD %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
@@ -218,6 +220,7 @@ function mostrar(id) {
                     <td id="BC"> {{libro.saldo}} </td>
                     {% endif %}
                 </tr>
+                {% endfor %}
                 {% for libro in activoK %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
@@ -231,6 +234,7 @@ function mostrar(id) {
                     {% endif %}
                 </tr>
                 {% endfor %}
+                
                 {% for libro in pasivoC %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
@@ -244,6 +248,7 @@ function mostrar(id) {
                     {% endif %}
                 </tr>
                 {% endfor %}
+                
                 {% for libro in pasivoF %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
@@ -256,6 +261,7 @@ function mostrar(id) {
                     <td id="BC"> {{libro.saldo}} </td>
                     {% endif %}
                 </tr>
+                
                 {% endfor %}
                 {% for libro in pasivoD %}
                 <tr>
@@ -270,7 +276,8 @@ function mostrar(id) {
                     {% endif %}
                 </tr>
                 {% endfor %}
-                {% endfor %}
+                
+
                 {% for libro in capitalS %}
                 <tr>
                     <td id="BC"> {{libro.codCuenta}} </td>
